@@ -1,3 +1,27 @@
+
+# ElderPass
+
+Run for development use:
+
+```console
+npm run-script run-dev
+```
+
+Run for production use (utilize [pm2 for clustering](https://pm2.keymetrics.io/docs/usage/cluster-mode/)):
+
+```console
+npm run-script run-prod
+```
+
+Gracefully shut down the production server:
+
+```console
+npm run-script stop-prod
+```
+
+
+------
+
 # Express OpenID Connect Webapp Sample
 
 This sample demonstrates authentication for an Express Node.js app. The sample quickly shows how to log in, log out, and view profile information of the logged-in user.

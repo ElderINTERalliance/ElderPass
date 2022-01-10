@@ -1,6 +1,10 @@
 {
   "name": "auth0-express-webapp-sample",
-  "scripts": {},
+  "scripts": {
+	  "run-dev": "npm start",
+	  "run-prod": "pm2 start server.js -i max --name elderpass",
+	  "stop-prod": "pm2 stop elderpass"
+  },
   "dependencies": {
     "debug": "~2.6.9",
     "dotenv": "^6.1.0",
@@ -8,6 +12,7 @@
     "express": "^4.17.2",
     "express-openid-connect": "^2.5.2",
     "http-errors": "~1.6.2",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "pm2": "^5.1.2"
   }
 }
