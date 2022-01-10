@@ -1,10 +1,31 @@
+/*
+ * ElderPass - Check students in and out of Flex time
+ * Written by: Zack Sargent (add your name here)
+ * Jan/2022
+ */
+
+// dotenv gets the secrets we keep in the `.env` file.
 const dotenv = require('dotenv');
+// express is the web framework we are using to host files
+// and serve the REST api
 const express = require('express');
+// create a server for express to listen on
 const http = require('http');
-const logger = require('morgan');
+// access local files
 const path = require('path');
+// these are all of the routes for the URL
 const router = require('./routes/index');
+// auth is provided by Auth0 (we get 7,000 signups for free)
 const { auth } = require('express-openid-connect');
+// logging middleware
+const morgan = require('morgan');
+// rfs breaks up log files
+const rfs = require("rotating-file-stream");
+const rfsStream = rfs.createStream("morgan.log", {
+  interval: '1d', // rotate daily
+  compress: 'gzip', // compress rotated files
+  path: path.join(__dirname, 'logs/morgan')
+});
 
 dotenv.load();
 
@@ -13,7 +34,11 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+app.use(morgan('common', {
+    stream: rfsStream
+}));
+app.use(morgan('dev'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
