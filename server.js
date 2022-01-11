@@ -26,6 +26,7 @@ const rfsStream = rfs.createStream("morgan.log", {
   compress: 'gzip', // compress rotated files
   path: path.join(__dirname, 'logs/morgan')
 });
+const morganMode = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms';
 
 dotenv.load();
 
@@ -34,7 +35,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(morgan('common', {
+app.use(morgan(morganMode, {
     stream: rfsStream
 }));
 app.use(morgan('dev'));
@@ -44,12 +45,14 @@ app.use(express.json());
 
 const config = {
   authRequired: false,
+  // authRequired: true,
   auth0Logout: true
 };
 
 const port = process.env.PORT || 3000;
 if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
-  config.baseURL = `http://localhost:${port}`;
+  // config.baseURL = `http://localhost:${port}`;
+  config.baseURL = `http://10.47.1.89:${port}`;
 }
 
 app.use(auth(config));
