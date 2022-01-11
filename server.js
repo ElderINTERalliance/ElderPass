@@ -27,6 +27,21 @@ const rfsStream = rfs.createStream("morgan.log", {
   path: path.join(__dirname, 'logs/morgan')
 });
 const morganMode = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms';
+// bunyan is for more descriptive logging
+const bunyan = require('bunyan');
+const logger = bunyan.createLogger({
+    name: 'ElderPass',
+    streams: [{
+		level: 'trace',
+        type: 'rotating-file',
+        path: './logs/bunyan/elderpass.log',
+        period: '1d',   // rotate logs every day
+        count: 10       // keep 10 back copies
+    }, {
+		level: 'info',
+		stream: process.stdout
+	}]
+});
 
 dotenv.load();
 
@@ -45,7 +60,6 @@ app.use(express.json());
 
 const config = {
   authRequired: false,
-  // authRequired: true,
   auth0Logout: true
 };
 
@@ -75,6 +89,10 @@ app.use(function (req, res, next) {
 // Error handlers
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
+
+  logger.error(JSON.stringify(err));
+  logger.trace(req);
+
   res.render('error', {
     message: err.message,
     error: process.env.NODE_ENV !== 'production' ? err : {}
@@ -83,5 +101,5 @@ app.use(function (err, req, res, next) {
 
 http.createServer(app)
   .listen(port, () => {
-    console.log(`Listening on ${config.baseURL}`);
+    logger.info(`Listening on ${config.baseURL}`);
   });

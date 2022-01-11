@@ -1,11 +1,12 @@
 {
   "name": "auth0-express-webapp-sample",
   "scripts": {
-    "run-dev": "npm start",
+    "run-dev": "npm start | bunyan",
     "run-prod": "pm2 start server.js -i max --name elderpass",
     "stop-prod": "pm2 stop elderpass"
   },
   "dependencies": {
+    "bunyan": "^1.8.15",
     "debug": "~2.6.9",
     "dotenv": "^6.1.0",
     "ejs": "^2.7.4",
