@@ -20,8 +20,8 @@ const csv = require("csv-parser");
 const path = require('path');
 const fs = require("fs");
 
-const { logger } = require("./Loggers");
-const { StudentNotFoundError, FileNotFoundError } = require("./Errors");
+const { logger } = require("./loggers");
+const { StudentNotFoundError, FileNotFoundError } = require("./errors");
 
 // this is an export from our student database
 const FILE_NAME = path.join(__dirname, "../StudentDatabase.csv");

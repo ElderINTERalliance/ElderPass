@@ -18,8 +18,8 @@ const path = require('path');
 const router = require('./routes/index');
 // auth is provided by Auth0 (we get 7,000 signups for free)
 const { auth } = require('express-openid-connect');
-const { morgan, logger, morganMode, rfsStream } = require("./src/Loggers");
-const { getStudent } = require("./src/StudentData");
+const { morgan, logger, morganMode, rfsStream } = require("./src/loggers");
+const { getStudent } = require("./src/student_data");
 
 dotenv.load();
 
