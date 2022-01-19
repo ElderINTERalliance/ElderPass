@@ -1,8 +1,9 @@
 /*
  * ElderPass - Check students in and out of Flex time
  * Written by: Zack Sargent (add your name here)
- * Jan/2022
  */
+
+"use strict";
 
 // dotenv gets the secrets we keep in the `.env` file.
 const dotenv = require('dotenv');
@@ -17,31 +18,8 @@ const path = require('path');
 const router = require('./routes/index');
 // auth is provided by Auth0 (we get 7,000 signups for free)
 const { auth } = require('express-openid-connect');
-// logging middleware
-const morgan = require('morgan');
-// rfs breaks up log files
-const rfs = require("rotating-file-stream");
-const rfsStream = rfs.createStream("morgan.log", {
-  interval: '1d', // rotate daily
-  compress: 'gzip', // compress rotated files
-  path: path.join(__dirname, 'logs/morgan')
-});
-const morganMode = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms';
-// bunyan is for more descriptive logging
-const bunyan = require('bunyan');
-const logger = bunyan.createLogger({
-    name: 'ElderPass',
-    streams: [{
-		level: 'trace',
-        type: 'rotating-file',
-        path: './logs/bunyan/elderpass.log',
-        period: '1d',   // rotate logs every day
-        count: 10       // keep 10 back copies
-    }, {
-		level: 'info',
-		stream: process.stdout
-	}]
-});
+const { morgan, logger, morganMode, rfsStream } = require("./src/Loggers");
+const { getStudent } = require("./src/StudentData");
 
 dotenv.load();
 
@@ -65,8 +43,7 @@ const config = {
 
 const port = process.env.PORT || 3000;
 if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
-  // config.baseURL = `http://localhost:${port}`;
-  config.baseURL = `http://10.47.1.89:${port}`;
+  config.baseURL = `http://localhost:${port}`;
 }
 
 app.use(auth(config));

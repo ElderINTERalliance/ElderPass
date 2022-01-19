@@ -17,11 +17,14 @@
 
 const assert = require("assert");
 const csv = require("csv-parser");
+const path = require('path');
 const fs = require("fs");
-const {StudentNotFoundError, FileNotFoundError} = require("./Errors");
+
+const { logger } = require("./Loggers");
+const { StudentNotFoundError, FileNotFoundError } = require("./Errors");
 
 // this is an export from our student database
-const FILE_NAME = __dirname + "/../StudentDatabase.csv"
+const FILE_NAME = path.join(__dirname, "../StudentDatabase.csv");
 if(!fs.existsSync(FILE_NAME)) {
 	throw new FileNotFoundError('Please make sure the student database is properly loaded.', FILE_NAME);
 }
@@ -76,29 +79,21 @@ function loadStudent(student) {
 	});
 }
 
-// TODO: Create logger module and use it everywhere
 fs.createReadStream(FILE_NAME)
 	.pipe(csv())
 	.on('data', (student) => {
 		// TODO: Use redis as a key value store?
-		// TODO: move this to other function and make strings into variables to change
 		try {
 			loadStudent(student);
 		} catch (err) {
-			console.log(`error loading student: `, student);
+			logger.error(`Error loading student "${JSON.stringify(student)}". | `, err);
 		}
 	})
 	.on('end', () => {
-		console.log('CSV file successfully processed');
-		console.log("hello from getStudent")
-		try {
-			console.log(getStudent("09ajsd"))
-		} catch (err) {
-			console.log(err);
-		}
+		logger.info('CSV file successfully processed');
 	})
 	.on('error', (err) => {
-		console.log('there was a terrible error!');
+		logger.error("error in fs.createReadStream - ", err);
 		throw new Error(`Error in parsing: ${err}`);
 	});
 
@@ -122,4 +117,6 @@ function getStudent(studentId) {
 		throw new StudentNotFoundError(studentId);
 	}
 }
+
+module.exports = { getStudent }
 
