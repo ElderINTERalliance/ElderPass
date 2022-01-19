@@ -4,15 +4,27 @@
 
 /**
  * Full student information for jsdoc
- * @typedef {{ id: string, lastName: string, firstName: string, middleName: string, email: string, gradYear: string, commonName: string, fullName: string }} Student
+ * @typedef {Object} Student
+ * @property {string} id - Student id, prefixed with STU
+ * @property {string} lastName - Last name may have punctuation
+ * @property {string} firstName - I don't believe this can have punctuation, but I'm not sure
+ * @property {string} middleName - Middle name may be empty and may have punctuation
+ * @property {string} email - Elder email, should be prexied with "e##-"
+ * @property {string} gradYear - 4 digit year
+ * @property {string} commonName - firstName lastName
+ * @property {string} fullName - firstName middleName? lastName
  */
 
 const assert = require("assert");
 const csv = require("csv-parser");
 const fs = require("fs");
+const {StudentNotFoundError, FileNotFoundError} = require("./Errors");
 
 // this is an export from our student database
-const FILE_NAME = "../StudentDatabase.csv"
+const FILE_NAME = __dirname + "/../StudentDatabase.csv"
+if(!fs.existsSync(FILE_NAME)) {
+	throw new FileNotFoundError('Please make sure the student database is properly loaded.', FILE_NAME);
+}
 
 const StudentData = new Map();
 
@@ -66,38 +78,48 @@ function loadStudent(student) {
 
 // TODO: Create logger module and use it everywhere
 fs.createReadStream(FILE_NAME)
-  .pipe(csv())
-  .on('data', (student) => {
-	// TODO: Use redis as a key value store?
-	// TODO: move this to other function and make strings into variables to change
-	  try {
-		  loadStudent(student);
-	  } catch {
-		  console.log(`error loading student: `, student);
-	  }
-  })
-  .on('end', () => {
-    console.log('CSV file successfully processed');
-	console.log(StudentData);
-  })
-  .on('error', (err) => {
-    console.log('there was a terrible error!');
-	throw new Error(`Error in parsing: ${err}`);
-  });
-
+	.pipe(csv())
+	.on('data', (student) => {
+		// TODO: Use redis as a key value store?
+		// TODO: move this to other function and make strings into variables to change
+		try {
+			loadStudent(student);
+		} catch (err) {
+			console.log(`error loading student: `, student);
+		}
+	})
+	.on('end', () => {
+		console.log('CSV file successfully processed');
+		console.log("hello from getStudent")
+		try {
+			console.log(getStudent("09ajsd"))
+		} catch (err) {
+			console.log(err);
+		}
+	})
+	.on('error', (err) => {
+		console.log('there was a terrible error!');
+		throw new Error(`Error in parsing: ${err}`);
+	});
 
 /**
- * getStudent takes a student Id and returns an object with
+ * getStudent takes a student id and returns an object with
  * all of the student data.
  *
- * @param {string} studentId - The student id
- * @return {Student} - the {@link Student} with that ID
- * @throws {StudentNotFoundException} - Student was not found
+ * This is a rather short method, but it should be kept in case we want
+ * to redesign how we store students.
+ *
+ * @param {string} studentId - The student id to try to find
+ * @return {Student} - The student with that ID
+ * @throws {StudentNotFoundError} - The student was not found
  */
 function getStudent(studentId) {
-	// ...
+	let response = StudentData.get(studentId);
+	if (response) {
+		return response;
+	} else {
+		console.log("could not find student " + studentId);
+		throw new StudentNotFoundError(studentId);
+	}
 }
-
-
-console.log("hello from getStudent")
 
