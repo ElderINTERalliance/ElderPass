@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * A StudentNotFoundError should be thrown if a student cannot be found in
  * our records. This should be properly handled by the caller.
