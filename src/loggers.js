@@ -35,7 +35,7 @@ const logger = bunyan.createLogger({
 module.exports = {
 	morgan,
 	logger,
-	morganMode, 
+	morganMode,
 	rfsStream
 }
 
