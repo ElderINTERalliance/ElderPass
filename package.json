@@ -1,5 +1,5 @@
 {
-  "name": "auth0-express-webapp-sample",
+  "name": "elderpass",
   "scripts": {
     "run-dev": "npm start | bunyan",
     "run-prod": "pm2 start server.js -i max --name elderpass",
