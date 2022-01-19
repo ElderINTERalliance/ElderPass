@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "bunyan": "^1.8.15",
-    "csv-parse": "^5.0.4",
+    "csv-parser": "^3.0.0",
     "debug": "~2.6.9",
     "dotenv": "^6.1.0",
     "ejs": "^2.7.4",
