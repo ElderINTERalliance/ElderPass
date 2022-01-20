@@ -107,7 +107,7 @@ function startUploadCycle(auth) {
 	setTimeout(() => {}, (Math.random() * 20) + 10);
 	submitFunction = async () => {
 		if (queue.length === 0) {
-			logger.info("nothing to append");
+			logger.trace("nothing to append");
 			return;
 		}
 		const range = "A:I";

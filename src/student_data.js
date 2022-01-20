@@ -113,7 +113,6 @@ function getStudent(studentId) {
 	if (response) {
 		return response;
 	} else {
-		console.log("could not find student " + studentId);
 		throw new StudentNotFoundError(studentId);
 	}
 }
