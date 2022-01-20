@@ -100,7 +100,6 @@ let submitFunction;
 
 function startUploadCycle(auth) {
 	const sheets = google.sheets({version: 'v4', auth});
-	logger.fatal(process.env.SHEET_ID);
 
 	// delay a random number of seconds to offset upload cycles
 	// while clustering.
