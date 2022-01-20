@@ -90,17 +90,16 @@ router.post('/api/submitstudent', requiresAuth(), function (req, res, next) {
 	const teacher = req.oidc.user;
 
 	// THIS ORDER MUST MATCH THE COLUMNS IN THE DATABASE
-	// {@link DatabaseSubmission}
 	const databaseSubmission = [
 		student.id,         // id
 		student.lastName,   // lastName
 		student.firstName,  // firstName
 		student.middleName, // middleName
-		student.email,      // studentEmail
-		teacher.email,      // teacherEmail
 		teacher.name,       // teacherName
+		sign,               // checking IN / OUT
 		time,               // time
-		sign                // checking IN / OUT
+		student.email,      // studentEmail
+		teacher.email       // teacherEmail
 	];
 	addToQueue(databaseSubmission);
 
