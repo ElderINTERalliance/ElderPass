@@ -3,7 +3,7 @@
 "use strict";
 
 /**
- * Full student information for jsdoc
+ * All of the information associated with a student
  * @typedef {Object} Student
  * @property {string} id - Student id, prefixed with STU
  * @property {string} lastName - Last name may have punctuation
@@ -32,7 +32,7 @@ if(!fs.existsSync(FILE_NAME)) {
 const StudentData = new Map();
 
 /**
- * loads a student object into the global Map object
+ * loads a student object into the global Map object.
  * Note that the map stores students with their student ID as the key,
  * and the full data as the value.
  * @param {Student} - The student to load into the Map.
