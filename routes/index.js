@@ -37,8 +37,9 @@ router.get('/profile', requiresAuth(), function (req, res, next) {
   });
 });
 
+
 /**
- * @name get/api/studentid=VALID_ID
+ * @name get/api/studentid=id
  * @description returns all the data on the student with that id.
  * See the regex for more info.
  * @type {StudentResponse}
