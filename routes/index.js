@@ -49,6 +49,7 @@ router.post('/api/submitstudent', requiresAuth(), function (req, res, next) {
 	const id = req.query.id;
 	const sign = req.query.sign;
 	const time = req.query.time || new Date().toISOString();
+	logger.debug("submit student was called")
 
 	// make sure the id starts with "STU" and only has numbers after it
 	if (!/STU\d+/.test(id)) {
