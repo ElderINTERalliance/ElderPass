@@ -13,6 +13,7 @@ const router = require('express').Router();
 const { requiresAuth } = require('express-openid-connect');
 const { logger } = require('../src/loggers');
 const { getStudent } = require('../src/student_data');
+const { addToQueue } = require('../src/sheets');
 
 /**
  * @name get/
@@ -37,14 +38,81 @@ router.get('/profile', requiresAuth(), function (req, res, next) {
   });
 });
 
+/**
+ * @name post/api/submitstudent
+ * @description submits a student
+ * @type {StudentResponse}
+ */
+router.post('/api/submitstudent', requiresAuth(), function (req, res, next) {
+	res.setHeader('Content-Type', 'application/json');
+	// take data from query parameters
+	const id = req.query.id;
+	const sign = req.query.sign;
+	const time = req.query.time || new Date().toISOString();
+
+	// make sure the id starts with "STU" and only has numbers after it
+	if (!/STU\d+/.test(id)) {
+		res.status(400).end(JSON.stringify({
+			data: {},
+			error: "Error: Invalid student id"
+		}));
+		logger.warn(`Student id "${id}" was invalid`);
+		return;
+	}
+
+	if (!["IN", "OUT"].includes(sign)) {
+		res.status(400).end(JSON.stringify({
+			data: {},
+			error: "Error: use `sign=IN` or `sign=OUT`. Current request was invalid."
+		}));
+		logger.warn(`sign "${sign}" was not valid.`);
+		return;
+	}
+
+	let response;
+	try {
+		// get student will throw an error if the student cannot be found
+		response = {
+			data: getStudent(id),
+			error: ""
+		};
+	} catch (err) {
+		res.status(404).end(JSON.stringify({
+			data: {},
+			error: `Student "${id}" was not found`
+		}));
+		logger.warn(`Student "${id}" was not found.`)
+		return;
+	}
+
+	const student = response.data;
+	const teacher = req.oidc.user;
+
+	// THIS ORDER MUST MATCH THE COLUMNS IN THE DATABASE
+	// {@link DatabaseSubmission}
+	const databaseSubmission = [
+		student.id,         // id
+		student.lastName,   // lastName
+		student.firstName,  // firstName
+		student.middleName, // middleName
+		student.email,      // studentEmail
+		teacher.email,      // teacherEmail
+		teacher.name,       // teacherName
+		time,               // time
+		sign                // checking IN / OUT
+	];
+	addToQueue(databaseSubmission);
+
+	res.end(JSON.stringify(response));
+});
 
 /**
- * @name get/api/studentid=id
+ * @name get/api/getstudent/studentid=id
  * @description returns all the data on the student with that id.
  * See the regex for more info.
  * @type {StudentResponse}
  */
-router.get('/api/studentid=:id', requiresAuth(), function (req, res, next) {
+router.get('/api/getstudent/studentid=:id', requiresAuth(), function (req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
 	const id = req.params.id;
 
@@ -60,7 +128,7 @@ router.get('/api/studentid=:id', requiresAuth(), function (req, res, next) {
 
 	let response;
 	try {
-		response = { 
+		response = {
 			data: getStudent(id),
 			error: ""
 		};

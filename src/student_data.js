@@ -9,7 +9,7 @@
  * @property {string} lastName - Last name may have punctuation
  * @property {string} firstName - I don't believe this can have punctuation, but I'm not sure
  * @property {string} middleName - Middle name may be empty and may have punctuation
- * @property {string} email - Elder email, should be prexied with "e##-"
+ * @property {string} email - Elder email, should be prefixed with "e##-"
  * @property {string} gradYear - 4 digit year
  * @property {string} commonName - firstName lastName
  * @property {string} fullName - firstName middleName? lastName

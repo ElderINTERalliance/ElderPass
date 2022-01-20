@@ -19,6 +19,9 @@
 
 // ORIGINAL:
 // https://developers.google.com/sheets/api/quickstart/nodejs
+/**
+ * @module Sheets
+ */
 
 const fs = require('fs');
 const readline = require('readline');
@@ -33,6 +36,10 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // time.
 const TOKEN_PATH = path.join(__dirname, '../token.json');
 const TIMEOUT = 10000; // 10 seconds
+
+if (!process.env.SHEET_ID) {
+	throw new Error("please enter the SHEET_ID into .env");
+}
 
 // Load client secrets from a local file.
 fs.readFile(path.join(__dirname, '../credentials.json'), (err, content) => {
@@ -98,6 +105,7 @@ let queue = [];
 let interval;
 let submitFunction;
 
+// TODO: add jsdoc
 function startUploadCycle(auth) {
 	const sheets = google.sheets({version: 'v4', auth});
 
@@ -110,7 +118,7 @@ function startUploadCycle(auth) {
 			logger.trace("nothing to append");
 			return;
 		}
-		const range = "A:I";
+		const range = "A:H";
 		const request = {
 			spreadsheetId: process.env.SHEET_ID,
 			range: range,
@@ -143,9 +151,28 @@ process.on('SIGINT', () => {
 	logger.trace("shutdown google sheets interval");
 });
 
-// TODO: add jsdoc
-function addToQueue(student) {
-	queue.push(student);
+/**
+ * All of the information associated with a check in/check out event
+ * @global
+ * @typedef {Object} DatabaseSubmission
+ * @property {string} id - Student id, prefixed with STU
+ * @property {string} lastName - Last name may have punctuation
+ * @property {string} firstName - I don't believe this can have punctuation, but I'm not sure
+ * @property {string} middleName - Middle name may be empty and may have punctuation
+ * @property {string} studentEmail - Elder email, should be prefixed with "e##-"
+ * @property {string} teacherEmail - A teacher's email
+ * @property {string} teacherName - A teacher's name
+ * @property {string} time - The time the check in/out occurred.
+ * @property {"IN"|"OUT"} checkIn - Whether the student is checking in or out
+ */
+
+/**
+ * @param {Array} arr - The array with all of the data to submit
+ * @see DatabaseSubmission
+ * @description - This will add a value to the queue of things to upload
+ */
+function addToQueue(arr) {
+	queue.push(arr);
 }
 
 module.exports = {
