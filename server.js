@@ -3,6 +3,10 @@
  * Written by: Zack Sargent (add your name here)
  */
 
+/**
+ * @module MainServer
+ */
+
 "use strict";
 
 // dotenv gets the secrets we keep in the `.env` file.
@@ -54,6 +58,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+/**
+ * @name /
+ * @description route to the [router]{@link module:Router}
+ */
 app.use('/', router);
 
 // Catch 404 and forward to error handler
