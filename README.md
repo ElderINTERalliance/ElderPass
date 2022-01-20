@@ -7,6 +7,12 @@ Run for development use:
 npm run-script run-dev
 ```
 
+Generate automatic documentation:
+
+```console
+npm run-script document
+```
+
 Run for production use (utilize [pm2 for clustering](https://pm2.keymetrics.io/docs/usage/cluster-mode/)):
 
 ```console
@@ -18,7 +24,6 @@ Gracefully shut down the production server:
 ```console
 npm run-script stop-prod
 ```
-
 
 ------
 
