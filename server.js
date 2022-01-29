@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
  * @description route to the [router]{@link module:Router}
  */
 app.use('/', router);
-app.use('/', apiRouter);
+app.use('/api', apiRouter);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {

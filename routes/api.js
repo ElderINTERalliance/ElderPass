@@ -27,7 +27,7 @@ const { addToQueue } = require('../src/sheets');
  * @description checks a student in or out
  * @type {StudentResponse}
  */
-apiRouter.post('/api/submitstudent', requiresAuth(), function (req, res, next) {
+apiRouter.post('/submitstudent', requiresAuth(), function (req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     // take data from query parameters
     const id = req.query.id;
@@ -95,7 +95,7 @@ apiRouter.post('/api/submitstudent', requiresAuth(), function (req, res, next) {
  * See the regex for more info.
  * @type {StudentResponse}
  */
-apiRouter.get('/api/getstudent/studentid=:id', requiresAuth(), function (req, res, next) {
+apiRouter.get('/getstudent/studentid=:id', requiresAuth(), function (req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const id = req.params.id;
 
@@ -131,7 +131,7 @@ apiRouter.get('/api/getstudent/studentid=:id', requiresAuth(), function (req, re
  * student name that matches.
  * @type {StudentSearchResponse}
  */
-apiRouter.get('/api/search', requiresAuth(), function (req, res, next) {
+apiRouter.get('/search', requiresAuth(), function (req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const commonName = req.query.name;
 
