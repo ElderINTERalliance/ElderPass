@@ -1,0 +1,19 @@
+<%- include('partials/header') -%>
+
+<div id="student-search-form">
+    <br>
+	<label for="studentName">Student Name:</label>
+	<input type="text" id="studentName" name="studentName">
+    <br>
+    <button id="submit">
+        Search!
+    </button>
+    <br>
+    <pre id="submission-data">
+        Nothing submitted yet
+    </pre>
+    <!-- <script type="module" src="/public/lib.mjs"></script> -->
+    <script type="module" src="/public/search.js"></script>
+</div>
+
+<%- include('partials/footer') -%>

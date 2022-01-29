@@ -18,6 +18,16 @@ router.get('/', function (req, res, next) {
 });
 
 /**
+ * @name get/search
+ * @description search for a student by their name to check them in
+ */
+router.get('/search', requiresAuth(), function (req, res, next) {
+	res.render('search', {
+		title: 'ElderPass Search',
+	});
+});
+
+/**
  * @name get/profile
  * @description the user's profile (requires authentication)
  */
