@@ -20,10 +20,10 @@ const http = require('http');
 const path = require('path');
 // these are all of the routes for the URL
 const router = require('./routes/index');
+const apiRouter = require('./routes/api');
 // auth is provided by Auth0 (we get 7,000 signups for free)
 const { auth } = require('express-openid-connect');
 const { morgan, logger, morganMode, rfsStream } = require("./src/loggers");
-const { getStudent } = require("./src/student_data");
 
 dotenv.load();
 
@@ -63,6 +63,7 @@ app.use(function (req, res, next) {
  * @description route to the [router]{@link module:Router}
  */
 app.use('/', router);
+app.use('/', apiRouter);
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
