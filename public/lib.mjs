@@ -7,7 +7,7 @@
 // modified from https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // TODO: add jsdoc
 async function sendData(url, method = 'POST') {
-    const response = await fetch(url, {
+    const options = {
         method: method,
         mode: 'cors',
         cache: 'no-cache',
@@ -17,9 +17,10 @@ async function sendData(url, method = 'POST') {
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
-    });
+    };
     if (method === 'POST')
-        response["body"] = "";
+        options["body"] = "";
+    const response = await fetch(url, options);
     return response.json(); // parses JSON response into native JavaScript objects
 }
 
@@ -28,10 +29,32 @@ async function searchForStudents(str) {
     return await sendData(`/api/search?name=${str}`, "GET");
 }
 
-// TODO: add jsdoc
+/**
+ * submits a student to the server
+ * @param {string} studentId 
+ * @param {string} direction 
+ * @throws {StudentNotFoundError} - The student was not found
+ * @returns {StudentResponse}
+ */
 async function submitStudent(studentId, direction) {
-    // TODO: Implement
-    console.log({ studentId, direction })
+    const url = `/api/submitstudent?id=${studentId}&sign=${direction}`;
+    const response = await sendData(url, "POST");
+    if (response.error) {
+        throw new StudentNotFoundError("I'm sorry. An error has occurred. Please try again.");
+    } else {
+        return response;
+    }
+}
+
+class StudentNotFoundError extends Error {
+    /**
+     * Creates a new StudentNotFoundError
+     * @param {string} text - The text to display
+     */
+    constructor(text) {
+        super(text);
+        this.name = "StudentNotFoundError";
+    }
 }
 
 export { searchForStudents, submitStudent };

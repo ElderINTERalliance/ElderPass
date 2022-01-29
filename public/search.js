@@ -6,7 +6,7 @@
 
 "use strict";
 
-import { searchForStudents, submitStudent } from "./lib.mjs";
+import { searchForStudents, submitStudent as submitStudentToServer } from "./lib.mjs";
 
 async function submit() {
     const name = document.getElementById("studentName").value.trim();
@@ -89,9 +89,9 @@ function createStudentEle(student) {
 
     // add button to choose student
     const button = document.createElement("button");
-    button.textContent = "submit";
-    button.addEventListener("click", () =>
-        submitStudent(student.id, "IN")
+    button.textContent = "select";
+    button.addEventListener("click", async () =>
+        selectStudent(student.id, "IN")
         // TODO: remove "IN" and create proper state management
     );
     result.appendChild(button);
@@ -116,6 +116,22 @@ function clearStudents() {
 function clearAllChildren(element) {
     while (element.firstChild) {
         element.firstChild.remove()
+    }
+}
+
+/**
+ * This sends the data to the server
+ * TODO: add student name to queue/history
+ * TODO: clear students afterwards
+ * @param {string} studentId
+ * @param {"IN"|"OUT"} direction
+ */
+async function selectStudent(studentId, direction) {
+    try {
+        const resp = await submitStudentToServer(studentId, direction);
+        // clearStudents();
+    } catch (err) {
+        // handle error
     }
 }
 
