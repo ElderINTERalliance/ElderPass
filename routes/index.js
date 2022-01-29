@@ -40,7 +40,7 @@ router.get('/profile', requiresAuth(), function (req, res, next) {
 
 /**
  * @name post/api/submitstudent
- * @description submits a student
+ * @description checks a student in or out
  * @type {StudentResponse}
  */
 router.post('/api/submitstudent', requiresAuth(), function (req, res, next) {

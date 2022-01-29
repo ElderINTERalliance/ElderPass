@@ -9,4 +9,5 @@
 	- Sign in with name
 
 - Make script to generate QR codes for students
+- add favicon
 
