@@ -27,7 +27,7 @@ const logger = bunyan.createLogger({
     period: '1d',   // rotate logs every day
     count: 10       // keep 10 back copies
   }, {
-    level: 'info',
+    level: 'debug',
     stream: process.stdout
   }]
 });

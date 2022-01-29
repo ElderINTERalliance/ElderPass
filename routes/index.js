@@ -4,6 +4,13 @@
 
 /**
  * @global
+ * @typedef {Object} StudentSearchResponse 
+ * @property {Student[]} data - Return a student if they are found. Otherwise, return an empty object, and populate the error.
+ * @property {string} error - The error message if a student is not found. Otherwise, it is "".
+ */
+
+/**
+ * @global
  * @typedef {Object} StudentResponse
  * @property {Student|Object} data - Return a student if they are found. Otherwise, return an empty object, and populate the error.
  * @property {string} error - The error message if a student is not found. Otherwise, it is "".
@@ -12,7 +19,7 @@
 const router = require('express').Router();
 const { requiresAuth } = require('express-openid-connect');
 const { logger } = require('../src/loggers');
-const { getStudent } = require('../src/student_data');
+const { getStudent, searchForStudent: searchForStudents } = require('../src/student_data');
 const { addToQueue } = require('../src/sheets');
 
 /**
@@ -25,7 +32,6 @@ router.get('/', function (req, res, next) {
 		isAuthenticated: req.oidc.isAuthenticated()
 	});
 });
-
 
 /**
  * @name get/profile
@@ -49,7 +55,6 @@ router.post('/api/submitstudent', requiresAuth(), function (req, res, next) {
 	const id = req.query.id;
 	const sign = req.query.sign;
 	const time = req.query.time || new Date().toISOString();
-	logger.debug("submit student was called")
 
 	// make sure the id starts with "STU" and only has numbers after it
 	if (!/STU\d+/.test(id)) {
@@ -141,5 +146,42 @@ router.get('/api/getstudent/studentid=:id', requiresAuth(), function (req, res, 
 	}
 	res.end(JSON.stringify(response));
 });
+
+/**
+ * @name get/api/search
+ * @description takes a parameter and tries to find a 
+ * student name that matches.
+ * @type {StudentSearchResponse}
+ */
+router.get('/api/search', requiresAuth(), function (req, res, next) {
+	res.setHeader('Content-Type', 'application/json');
+	const commonName = req.query.name;
+
+	if (!commonName) {
+		res.status(400).end(JSON.stringify({
+			data: {},
+			error: "Please fill out a student name."
+		}));
+		return;
+	}
+
+	const students = searchForStudents(commonName);
+
+	if (students.length > 0) {
+		response = {
+			data: students,
+			error: ""
+		};
+	} else {
+		response = {
+			data: {},
+			error: `Student could not be found. Consider using their last name.`
+		}
+		logger.trace(`Student "${commonName}" could not be found`);
+	}
+
+	res.end(JSON.stringify(response));
+});
+
 
 module.exports = router;

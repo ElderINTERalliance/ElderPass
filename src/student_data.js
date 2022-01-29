@@ -117,5 +117,26 @@ function getStudent(studentId) {
 	}
 }
 
-module.exports = { getStudent }
+/**
+ * searchForStudent takes a string (ultimately provided by a teacher)
+ * and tries to find a student name that it matches.
+ *
+ * @param {string} str - The student first name and last name (e.g. John Doe)
+ * @return {Student[]} - The student with that ID
+ */
+function searchForStudents(str) {
+	// TODO: replace with better search method
+
+	// ewww linear search :(
+	// I kinda want to implement an intermediate database layer
+	return Array.from(StudentData.values()).filter((student) => {
+		const commonName = student.commonName.toLowerCase();
+		const fullName = student.fullName.toLowerCase();
+		const target = str.toLowerCase();
+
+		return commonName.includes(target) || fullName.includes(target);
+	});
+}
+
+module.exports = { getStudent, searchForStudent: searchForStudents }
 
