@@ -4,7 +4,7 @@
     "run-dev": "npm start | bunyan",
     "run-prod": "pm2 start server.js -i max --name elderpass",
     "stop-prod": "pm2 stop elderpass",
-    "document": "jsdoc server.js -r ./routes/ -r ./src/ && echo 'check in ./out/index.html'"
+    "document": "jsdoc server.js -r ./routes/ -r ./src/ ./public/*.js && echo 'check in ./out/index.html'"
   },
   "dependencies": {
     "bunyan": "^1.8.15",
