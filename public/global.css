@@ -1,0 +1,42 @@
+:root {
+  --elder-purple: #5c068cff;
+  --light-background: #c7e8f3ff;
+  --dark-background: #0b2932ff;
+  --light-foreground: #c7e8f3;
+  --light-foreground-hover: #f1fbff;
+
+  --ultradark: #000000ff;
+  --highlight: #bdbf09ff;
+}
+
+body {
+  font: 1.2em "Fira Sans", sans-serif;
+  color: var(--light-background);
+  margin: 0;
+  padding: 0;
+}
+
+#navbar {
+  display: flex;
+  padding: 10px;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  background: var(--dark-background);
+}
+
+#logo {
+  color: var(--elder-purple);
+}
+
+#links > a {
+  color: var(--light-foreground);
+  margin: 20px;
+  text-decoration: none;
+}
+
+#links > a:hover {
+  color: var(--light-foreground-hover);
+  margin: 20px;
+  text-decoration: none;
+}
