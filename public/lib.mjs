@@ -28,4 +28,10 @@ async function searchForStudents(str) {
     return await sendData(`/api/search?name=${str}`, "GET");
 }
 
-export { searchForStudents };
+// TODO: add jsdoc
+async function submitStudent(studentId, direction) {
+    // TODO: Implement
+    console.log({ studentId, direction })
+}
+
+export { searchForStudents, submitStudent };

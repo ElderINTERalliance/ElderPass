@@ -6,10 +6,12 @@
 
 "use strict";
 
-import { searchForStudents } from "./lib.mjs";
+import { searchForStudents, submitStudent } from "./lib.mjs";
 
 async function submit() {
     const name = document.getElementById("studentName").value.trim();
+    displayLoading();
+
     const response = await searchForStudents(name);
 
     clearStudents();
@@ -19,6 +21,14 @@ async function submit() {
     } else {
         displayStudents(response.data);
     }
+}
+
+function displayLoading() {
+    clearStudents();
+
+    const ele = createDiv("Loading...", "loading-text");
+
+    document.getElementById("submission-data").appendChild(ele);
 }
 
 function displayError(text) {
@@ -75,14 +85,28 @@ function createEle(eleName, text, className = "") {
  * @returns {HTMLElement} - A div with all fo the student data.
  */
 function createStudentEle(student) {
+    const result = document.createElement("div");
+
+    // add button to choose student
+    const button = document.createElement("button");
+    button.textContent = "submit";
+    button.addEventListener("click", () =>
+        submitStudent(student.id, "IN")
+        // TODO: remove "IN" and create proper state management
+    );
+    result.appendChild(button);
+
+    // add the student data
     const ele = document.createElement("div");
-    ele.className = "student";
+    ele.className = "student-data";
 
     ele.appendChild(createEle("h4", student.fullName, "student-full-name"))
     ele.appendChild(createDiv(student.gradYear, "student-grad-year"))
     ele.appendChild(createDiv(student.id, "student-id"))
 
-    return ele;
+    result.appendChild(ele);
+
+    return result;
 }
 
 function clearStudents() {
