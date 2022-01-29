@@ -19,23 +19,23 @@ const morganMode = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/
 // bunyan is for more descriptive logging
 const bunyan = require('bunyan');
 const logger = bunyan.createLogger({
-    name: 'ElderPass',
-    streams: [{
-		level: 'trace',
-        type: 'rotating-file',
-        path: path.join(__dirname, '../logs/bunyan/elderpass.log'),
-        period: '1d',   // rotate logs every day
-        count: 10       // keep 10 back copies
-    }, {
-		level: 'info',
-		stream: process.stdout
-	}]
+  name: 'ElderPass',
+  streams: [{
+    level: 'trace',
+    type: 'rotating-file',
+    path: path.join(__dirname, '../logs/bunyan/elderpass.log'),
+    period: '1d',   // rotate logs every day
+    count: 10       // keep 10 back copies
+  }, {
+    level: 'info',
+    stream: process.stdout
+  }]
 });
 
 module.exports = {
-	morgan,
-	logger,
-	morganMode,
-	rfsStream
+  morgan,
+  logger,
+  morganMode,
+  rfsStream
 }
 

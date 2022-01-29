@@ -20,10 +20,10 @@ const { addToQueue } = require('../src/sheets');
  * @description the main page the user sees
  */
 router.get('/', function (req, res, next) {
-  res.render('index', {
-    title: 'ElderPass Home',
-    isAuthenticated: req.oidc.isAuthenticated()
-  });
+	res.render('index', {
+		title: 'ElderPass Home',
+		isAuthenticated: req.oidc.isAuthenticated()
+	});
 });
 
 
@@ -32,10 +32,10 @@ router.get('/', function (req, res, next) {
  * @description the user's profile (requires authentication)
  */
 router.get('/profile', requiresAuth(), function (req, res, next) {
-  res.render('profile', {
-    userProfile: JSON.stringify(req.oidc.user, null, 2),
-    title: 'Profile page'
-  });
+	res.render('profile', {
+		userProfile: JSON.stringify(req.oidc.user, null, 2),
+		title: 'Profile page'
+	});
 });
 
 /**

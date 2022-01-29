@@ -25,7 +25,7 @@ const { StudentNotFoundError, FileNotFoundError } = require("./errors");
 
 // this is an export from our student database
 const FILE_NAME = path.join(__dirname, "../StudentDatabase.csv");
-if(!fs.existsSync(FILE_NAME)) {
+if (!fs.existsSync(FILE_NAME)) {
 	throw new FileNotFoundError('Please make sure the student database is properly loaded.', FILE_NAME);
 }
 
@@ -41,11 +41,11 @@ const StudentData = new Map();
 function loadStudent(student) {
 	// have renamable keys in case the csv's headers change
 	const idKey = "Student ID";
-	const lastNameKey   = "Last Name";
-	const firstNameKey  = "First Name";
+	const lastNameKey = "Last Name";
+	const firstNameKey = "First Name";
 	const middleNameKey = "Middle Name";
-	const emailKey      = "ElderEmail";
-	const gradYearKey   = "Grad Year";
+	const emailKey = "ElderEmail";
+	const gradYearKey = "Grad Year";
 
 	// make sure student has the necessary properties
 	assert(student[idKey]);
@@ -68,14 +68,14 @@ function loadStudent(student) {
 	const commonName = `${student[firstNameKey]} ${student[lastNameKey]}`;
 
 	StudentData.set(student[idKey], {
-		id:         student[idKey],
-		lastName:   student[lastNameKey],
-		firstName:  student[firstNameKey],
+		id: student[idKey],
+		lastName: student[lastNameKey],
+		firstName: student[firstNameKey],
 		middleName: student[middleNameKey],
-		email:      student[emailKey],
-		gradYear:   student[gradYearKey],
+		email: student[emailKey],
+		gradYear: student[gradYearKey],
 		commonName: commonName,
-		fullName:   fullName
+		fullName: fullName
 	});
 }
 

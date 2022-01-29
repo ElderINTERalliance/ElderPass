@@ -28,7 +28,7 @@ const readline = require('readline');
 const path = require('path');
 const { google } = require('googleapis');
 const { logger } = require('./loggers');
-require('dotenv').config({path: path.join(__dirname, '../.env')})
+require('dotenv').config({ path: path.join(__dirname, '../.env') })
 
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -58,7 +58,7 @@ fs.readFile(path.join(__dirname, '../credentials.json'), (err, content) => {
  * @param {function} callback The callback to call with the authorized client.
  */
 function authorize(credentials, callback) {
-	const {client_secret, client_id, redirect_uris} = credentials.installed;
+	const { client_secret, client_id, redirect_uris } = credentials.installed;
 	const oAuth2Client = new google.auth.OAuth2(
 		client_id, client_secret, redirect_uris[0]);
 
@@ -107,12 +107,12 @@ let submitFunction;
 
 // TODO: add jsdoc
 function startUploadCycle(auth) {
-	const sheets = google.sheets({version: 'v4', auth});
+	const sheets = google.sheets({ version: 'v4', auth });
 
 	// delay a random number of seconds to offset upload cycles
 	// while clustering.
 	// REVIEW: should I make a shared queue between processes?
-	setTimeout(() => {}, (Math.random() * 20) + 10);
+	setTimeout(() => { }, (Math.random() * 20) + 10);
 	submitFunction = async () => {
 		if (queue.length === 0) {
 			logger.trace("nothing to append");
