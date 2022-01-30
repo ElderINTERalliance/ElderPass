@@ -118,7 +118,7 @@ function getStudent(studentId) {
 }
 
 /**
- * searchForStudent takes a string (ultimately provided by a teacher)
+ * searchForStudents takes a string (ultimately provided by a teacher)
  * and tries to find a student name that it matches.
  *
  * @param {string} str - The student first name and last name (e.g. John Doe)
@@ -135,8 +135,8 @@ function searchForStudents(str) {
 		const target = str.toLowerCase();
 
 		return commonName.includes(target) || fullName.includes(target);
-	});
+	}).sort((a, b) => a.lastName.localeCompare(b.lastName));
 }
 
-module.exports = { getStudent, searchForStudent: searchForStudents }
+module.exports = { getStudent, searchForStudents }
 

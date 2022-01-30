@@ -19,7 +19,7 @@
 const apiRouter = require('express').Router();
 const { requiresAuth } = require('express-openid-connect');
 const { logger } = require('../src/loggers');
-const { getStudent, searchForStudent: searchForStudents } = require('../src/student_data');
+const { getStudent, searchForStudents } = require('../src/student_data');
 const { addToQueue } = require('../src/sheets');
 
 /**
