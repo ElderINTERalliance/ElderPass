@@ -5,6 +5,9 @@
  * @description The list of students that have already been checked in.
  */
 
+// TODO: add undo button for history
+// TODO: develop delete endpoint for undo button
+
 import { searchForStudents, submitStudent as submitStudentToServer, clearAllChildren, createDiv, createEle } from "./lib.mjs";
 
 function clearHistory() {
