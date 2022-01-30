@@ -1,11 +1,17 @@
-/*
- * Library of functions to be reused.
+/**
+ * Library of functions reusable functions
+ * @module Lib
  */
 
 "use strict";
 
-// modified from https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-// TODO: add jsdoc
+/**
+ * Sends 
+ * @async 
+ * @param {string} url - The URL to send data to
+ * @param {string} method - The [HTTP request method](@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+ */
 async function sendData(url, method = 'POST') {
     const options = {
         method: method,
@@ -24,7 +30,12 @@ async function sendData(url, method = 'POST') {
     return response.json(); // parses JSON response into native JavaScript objects
 }
 
-// TODO: add jsdoc
+/**
+ * Finds all the students whose name match the string
+ * @async
+ * @param {string} str 
+ * @returns {Student[]}
+ */
 async function searchForStudents(str) {
     return await sendData(`/api/search?name=${str}`, "GET");
 }

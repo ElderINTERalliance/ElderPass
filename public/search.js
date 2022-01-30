@@ -109,7 +109,8 @@ function clearInput() {
 }
 
 /**
- * This sends the data to the server
+ * This selects a student as signing in/out of a flex period.
+ * @async
  * @param {Student} student
  * @param {"IN"|"OUT"} direction
  */

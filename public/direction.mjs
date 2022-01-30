@@ -1,6 +1,6 @@
 /**
  * @module Direction
- * i.e. Is the student checking in or out?
+ * @description i.e. Is the student checking in or out?
  */
 
 function toggleButton() {

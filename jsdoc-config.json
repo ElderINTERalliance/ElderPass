@@ -1,0 +1,11 @@
+{
+    "source": {
+        "include": [
+            "./routes",
+            "./src",
+            "./public",
+            "./server.js"
+        ],
+        "includePattern": ".+\\.(js(doc|x)?|mjs)$"
+    }
+}
