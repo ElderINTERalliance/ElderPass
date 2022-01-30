@@ -1,1 +1,21 @@
-/* There's nothing here O_O */
+#history {
+  --height: 40px;
+  padding-top: 8px;
+  background-color: var(--light-background);
+  max-height: var(--height);
+  height: var(--height);
+  flex-direction: column;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.history-entry {
+  margin: 0;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 0.5em;
+  /* padding-left: 2em; */
+  display: inline;
+  /* margin-left: 5em; */
+  margin-right: 1em;
+}

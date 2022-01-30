@@ -120,7 +120,7 @@ async function selectStudent(student, direction) {
         await submitStudentToServer(student.id, direction);
         clearStudents();
         clearInput();
-        addToHistory(student);
+        addToHistory(student, direction);
     } catch (err) {
         console.error(err);
         displayError("Could not select student. Please try again, or contact support if this is a frequent issue.");

@@ -18,20 +18,23 @@ function mountHistory() {
 /**
  * generates a history element
  * @param {Student} student 
+ * @param {string} direction
  * @returns {HTMLElement} - an "li" element with the student's name
  */
-function createHistoryEle(student) {
-    return createEle("li", student.fullName, "history-entry");
+function createHistoryEle(student, direction) {
+    const message = `${student.fullName} ${direction}`;
+    return createEle("li", message, "history-entry");
 }
 
 /**
  * adds a student to the history of students checked in/out
  * @param {Student} student 
+ * @param {"IN"|"OUT"} direction
  */
-function addToHistory(student) {
+function addToHistory(student, direction) {
     document
         .getElementById("history")
-        .prepend(createHistoryEle(student));
+        .prepend(createHistoryEle(student, direction));
 }
 
 export { mountHistory, addToHistory, clearHistory };
