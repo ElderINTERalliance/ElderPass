@@ -1,0 +1,19 @@
+<%- include('partials/header') -%>
+
+<div id="student-search-form">
+    <br>
+    <h1>Scan</h1>
+
+    <%- include('partials/history') -%>
+    <%- include('partials/direction') -%>
+
+    <h1> QR Code Reader: </h1>
+    <div id="qr-reader" style="width:500px"></div>
+    <h1> Results: </h1>
+    <div id="qr-reader-results"></div>
+
+    <script type="module" src="/public/scan.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</div>
+
+<%- include('partials/footer') -%>

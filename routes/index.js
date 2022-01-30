@@ -19,11 +19,21 @@ router.get('/', function (req, res, next) {
 
 /**
  * @name get/search
- * @description search for a student by their name to check them in
+ * @description search for a student by their name to check them in/out
  */
 router.get('/search', requiresAuth(), function (req, res, next) {
 	res.render('search', {
 		title: 'ElderPass Search',
+	});
+});
+
+/**
+ * @name get/scan
+ * @description scans a student's QR code to check them in/out
+ */
+router.get('/scan', requiresAuth(), function (req, res, next) {
+	res.render('scan', {
+		title: 'ElderPass Scanner',
 	});
 });
 
