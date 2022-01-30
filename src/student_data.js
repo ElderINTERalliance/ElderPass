@@ -125,7 +125,7 @@ function getStudent(studentId) {
  * @return {Student[]} - The student with that ID
  */
 function searchForStudents(str) {
-	// TODO: replace with better search method
+	// REVIEW: replace with better search method
 
 	// ewww linear search :(
 	// I kinda want to implement an intermediate database layer

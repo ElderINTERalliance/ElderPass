@@ -22,9 +22,6 @@ async function sendData(url) {
 	return response.json(); // parses JSON response into native JavaScript objects
 }
 
-// TODO: Make way to type names instead of student ids
-// 	TODO: Figure out how to search properly
-
 // TODO: add barcode scanner here
 
 document.getElementById("submit").addEventListener("click", async () => {

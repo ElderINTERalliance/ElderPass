@@ -4,7 +4,7 @@
  */
 
 function toggleButton() {
-    document.getElementById("togggle-button").click();
+    document.getElementById("toggle-button").click();
 }
 
 /**
@@ -18,7 +18,20 @@ function mountDirection() {
     });
 }
 
+/**
+ * Gets the direction the student is going
+ * @returns {"IN" | "OUT"}
+ */
+function getDirection() {
+    const toggle = document.getElementById("toggle-button");
+    if (toggle.checked) {
+        return "IN";
+    } else {
+        return "OUT";
+    }
+}
+
 export {
     mountDirection,
-    toggleButton,
+    getDirection,
 }

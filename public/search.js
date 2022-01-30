@@ -8,7 +8,7 @@
 
 import { searchForStudents, submitStudent as submitStudentToServer, clearAllChildren, createDiv, createEle } from "./lib.mjs";
 import { mountHistory, addToHistory } from "./history.mjs";
-import { mountDirection } from "./direction.mjs";
+import { getDirection, mountDirection } from "./direction.mjs";
 
 async function submit() {
     const name = document.getElementById("studentName").value.trim();
@@ -82,8 +82,7 @@ function createStudentEle(student) {
     // add button to choose student
     const button = document.createElement("button");
     button.addEventListener("click", async () =>
-        selectStudent(student, "IN")
-        // TODO: remove "IN" and create proper state management
+        selectStudent(student, getDirection())
     );
 
     // add the student data
@@ -111,8 +110,6 @@ function clearInput() {
 
 /**
  * This sends the data to the server
- * TODO: add student name to queue/history
- * TODO: clear students afterwards
  * @param {Student} student
  * @param {"IN"|"OUT"} direction
  */
