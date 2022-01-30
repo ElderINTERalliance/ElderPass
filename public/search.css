@@ -1,0 +1,28 @@
+.student-data-container {
+  display: flex;
+  align-items: center;
+  margin: 6px;
+}
+
+.student-data-container > button {
+  height: min-content;
+  margin-right: 10px;
+  background-color: var(--light-background);
+}
+
+.student-data-container > button:focus {
+  border-radius: 10px;
+}
+
+.student-data-container > button:hover {
+  border-radius: 10px;
+  background-color: var(--light-background-hover);
+}
+
+.student-data > * {
+  display: inline;
+}
+
+.student-full-name {
+  padding: 10px;
+}

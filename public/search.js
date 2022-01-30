@@ -40,6 +40,19 @@ function displayError(text) {
 }
 
 /**
+ * this function should be used to make numbers plural.
+ * @param {number} num - the number to be formatted
+ * @returns {"s" | ""}
+ */
+function s(num) {
+    if (num === 1) {
+        return "";
+    } else {
+        return "s";
+    }
+}
+
+/**
  * Takes an array of student objects and displays
  * them to the screen
  * @param {Student[]} students 
@@ -48,9 +61,11 @@ function displayStudents(students) {
     const result = document.createElement("div");
     result.className = "students-search-list";
     for (const student of students) {
-        result.appendChild(createStudentEle(student))
+        result.appendChild(createStudentEle(student));
     }
-    document.getElementById("submission-data").appendChild(result);
+    const dataContainer = document.getElementById("submission-data");
+    dataContainer.appendChild(createEle("h5", `${students.length} student${s(students.length)} found.`, "students-count"))
+    dataContainer.appendChild(result);
 }
 
 /**
@@ -86,37 +101,42 @@ function createEle(eleName, text, className = "") {
  */
 function createStudentEle(student) {
     const result = document.createElement("div");
+    result.className = "student-data-container";
 
     // add button to choose student
     const button = document.createElement("button");
-    button.textContent = "select";
     button.addEventListener("click", async () =>
         selectStudent(student.id, "IN")
         // TODO: remove "IN" and create proper state management
     );
-    result.appendChild(button);
 
     // add the student data
     const ele = document.createElement("div");
     ele.className = "student-data";
 
-    ele.appendChild(createEle("h4", student.fullName, "student-full-name"))
-    ele.appendChild(createDiv(student.gradYear, "student-grad-year"))
-    ele.appendChild(createDiv(student.id, "student-id"))
+    ele.appendChild(createEle("h4", student.fullName, "student-full-name"));
+    ele.appendChild(createDiv(`(${student.gradYear})`, "student-grad-year"));
 
-    result.appendChild(ele);
+    button.appendChild(ele);
+    result.appendChild(button);
 
     return result;
 }
 
 function clearStudents() {
-    clearAllChildren(document.getElementById("submission-data"))
+    clearAllChildren(document.getElementById("submission-data"));
 }
 
 function clearAllChildren(element) {
     while (element.firstChild) {
-        element.firstChild.remove()
+        element.firstChild.remove();
     }
+}
+
+function clearInput() {
+    const input = document.getElementById("studentName")
+    input.value = "";
+    input.select();
 }
 
 /**
@@ -128,11 +148,17 @@ function clearAllChildren(element) {
  */
 async function selectStudent(studentId, direction) {
     try {
-        const resp = await submitStudentToServer(studentId, direction);
-        // clearStudents();
+        await submitStudentToServer(studentId, direction);
+        clearStudents();
+        clearInput();
     } catch (err) {
-        // handle error
+        displayError("Could not select student. Please try again, or contact support if this is a frequent issue.");
     }
 }
+
+document.getElementById("studentName").addEventListener("keydown", (key) => {
+    if (key.code === "Enter")
+        submit();
+});
 
 document.getElementById("submit").addEventListener("click", submit);
