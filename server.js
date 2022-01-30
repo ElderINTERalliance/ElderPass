@@ -47,7 +47,8 @@ const config = {
 
 const port = process.env.PORT || 3000;
 if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
-  config.baseURL = `http://localhost:${port}`;
+  // config.baseURL = `http://localhost:${port}`;
+  config.baseURL = `http://192.168.1.115:${port}`; // TODO: DELETE
 }
 
 app.use(auth(config));
@@ -63,6 +64,11 @@ app.use(function (req, res, next) {
  * @description route to the [router]{@link module:Router}
  */
 app.use('/', router);
+
+/**
+ * @name /api
+ * @description route to the [API]{@link module:API}
+ */
 app.use('/api', apiRouter);
 
 // Catch 404 and forward to error handler

@@ -8,6 +8,7 @@
 
 import { searchForStudents, submitStudent as submitStudentToServer, clearAllChildren, createDiv, createEle } from "./lib.mjs";
 import { mountHistory, addToHistory } from "./history.mjs";
+import { mountDirection } from "./direction.mjs";
 
 async function submit() {
     const name = document.getElementById("studentName").value.trim();
@@ -135,3 +136,4 @@ document.getElementById("studentName").addEventListener("keydown", (key) => {
 document.getElementById("submit").addEventListener("click", submit);
 
 mountHistory();
+mountDirection();

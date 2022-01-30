@@ -2,7 +2,6 @@
 
 - Add a QR code reader
 - Add the ability to search by name
-- Clean up the design
 
 - Make pages:
 	- Sign in with QR code
@@ -10,4 +9,5 @@
 
 - Make script to generate QR codes for students
 - add favicon
+- improve mobile experience
 
