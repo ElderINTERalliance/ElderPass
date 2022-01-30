@@ -46,6 +46,42 @@ async function submitStudent(studentId, direction) {
     }
 }
 
+/**
+ * Clears all the children of an element
+ * @param {HTMLElement} element 
+ */
+function clearAllChildren(element) {
+    while (element.firstChild) {
+        element.firstChild.remove();
+    }
+}
+
+/**
+ * Creates a div element with text easily
+ * @param {string} text
+ * @param {string} className - Defaults to ""
+ * @returns {HTMLElement} - A div with the specified text
+ */
+function createDiv(text, className = "") {
+    const ele = document.createElement("div");
+    ele.textContent = text;
+    ele.className = className;
+    return ele;
+}
+
+/**
+ * Creates an html element with text easily
+ * @param {string} text
+ * @param {string} className - Defaults to ""
+ * @returns {HTMLElement} - A div with the specified text
+ */
+function createEle(eleName, text, className = "") {
+    const ele = document.createElement(eleName);
+    ele.textContent = text;
+    ele.className = className;
+    return ele;
+}
+
 class StudentNotFoundError extends Error {
     /**
      * Creates a new StudentNotFoundError
@@ -57,4 +93,4 @@ class StudentNotFoundError extends Error {
     }
 }
 
-export { searchForStudents, submitStudent };
+export { searchForStudents, submitStudent, clearAllChildren, createDiv, createEle };

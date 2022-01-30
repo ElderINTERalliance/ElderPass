@@ -6,7 +6,8 @@
 
 "use strict";
 
-import { searchForStudents, submitStudent as submitStudentToServer } from "./lib.mjs";
+import { searchForStudents, submitStudent as submitStudentToServer, clearAllChildren, createDiv, createEle } from "./lib.mjs";
+import { mountHistory, addToHistory } from "./history.mjs";
 
 async function submit() {
     const name = document.getElementById("studentName").value.trim();
@@ -69,32 +70,6 @@ function displayStudents(students) {
 }
 
 /**
- * Creates a div element with text easily
- * @param {string} text
- * @param {string} className - Defaults to ""
- * @returns {HTMLElement} - A div with the specified text
- */
-function createDiv(text, className = "") {
-    const ele = document.createElement("div");
-    ele.textContent = text;
-    ele.className = className;
-    return ele;
-}
-
-/**
- * Creates an html element with text easily
- * @param {string} text
- * @param {string} className - Defaults to ""
- * @returns {HTMLElement} - A div with the specified text
- */
-function createEle(eleName, text, className = "") {
-    const ele = document.createElement(eleName);
-    ele.textContent = text;
-    ele.className = className;
-    return ele;
-}
-
-/**
  * Adds a student to the students displayed
  * @param {Student} student
  * @returns {HTMLElement} - A div with all fo the student data.
@@ -106,7 +81,7 @@ function createStudentEle(student) {
     // add button to choose student
     const button = document.createElement("button");
     button.addEventListener("click", async () =>
-        selectStudent(student.id, "IN")
+        selectStudent(student, "IN")
         // TODO: remove "IN" and create proper state management
     );
 
@@ -127,12 +102,6 @@ function clearStudents() {
     clearAllChildren(document.getElementById("submission-data"));
 }
 
-function clearAllChildren(element) {
-    while (element.firstChild) {
-        element.firstChild.remove();
-    }
-}
-
 function clearInput() {
     const input = document.getElementById("studentName")
     input.value = "";
@@ -143,15 +112,17 @@ function clearInput() {
  * This sends the data to the server
  * TODO: add student name to queue/history
  * TODO: clear students afterwards
- * @param {string} studentId
+ * @param {Student} student
  * @param {"IN"|"OUT"} direction
  */
-async function selectStudent(studentId, direction) {
+async function selectStudent(student, direction) {
     try {
-        await submitStudentToServer(studentId, direction);
+        await submitStudentToServer(student.id, direction);
         clearStudents();
         clearInput();
+        addToHistory(student);
     } catch (err) {
+        console.error(err);
         displayError("Could not select student. Please try again, or contact support if this is a frequent issue.");
     }
 }
@@ -162,3 +133,5 @@ document.getElementById("studentName").addEventListener("keydown", (key) => {
 });
 
 document.getElementById("submit").addEventListener("click", submit);
+
+mountHistory();

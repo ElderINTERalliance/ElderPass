@@ -1,11 +1,10 @@
 <%- include('partials/header') -%>
 
-<link rel="stylesheet" href="/public/search.css">
-
 <div id="student-search-form">
-    <!-- TODO: improve user experience -->
     <!-- TODO: add explanatory notes -->
+    <!-- TODO: add state management -->
     <br>
+    <%- include('partials/history') -%>
 	<label for="studentName">Student Name:</label>
 	<input type="text" id="studentName" name="studentName" autofocus>
     <button id="submit" tabindex="-1">
