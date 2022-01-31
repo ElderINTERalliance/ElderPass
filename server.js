@@ -95,3 +95,8 @@ http.createServer(app)
   .listen(port, () => {
     logger.info(`Listening on ${config.baseURL}`);
   });
+
+process.on('SIGINT', function () {
+  logger.info("\nGracefully shutting down from SIGINT (Ctrl-C)");
+  process.exit(0);
+});
