@@ -149,6 +149,7 @@ process.on('SIGINT', () => {
 	submitFunction(); // try to back up any last data
 	clearInterval(interval);
 	logger.trace("shutdown google sheets interval");
+	process.exit(0);
 });
 
 /**
