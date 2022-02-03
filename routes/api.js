@@ -11,7 +11,7 @@
 
 /**
  * @global
- * @typedef {Object} StudentSearchResponse 
+ * @typedef {Object} StudentSearchResponse
  * @property {Student[]} data - Return a student if they are found. Otherwise, return an empty object, and populate the error.
  * @property {string} error - The error message if a student is not found. Otherwise, it is "".
  */
@@ -20,14 +20,14 @@ const apiRouter = require('express').Router();
 const { requiresAuth } = require('express-openid-connect');
 const { logger } = require('../src/loggers');
 const { getStudent, searchForStudents } = require('../src/student_data');
-const { addToQueue } = require('../src/sheets');
+const { addToQueue } = require('../src/sheets.js');
 
 /**
  * @name post/api/submitstudent
  * @description checks a student in or out
  * @type {StudentResponse}
  */
-apiRouter.post('/submitstudent', requiresAuth(), function (req, res, next) {
+apiRouter.post('/submitstudent', requiresAuth(), async function (req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     // take data from query parameters
     const id = req.query.id;
@@ -38,16 +38,16 @@ apiRouter.post('/submitstudent', requiresAuth(), function (req, res, next) {
     if (!/STU\d+/.test(id)) {
         res.status(400).end(JSON.stringify({
             data: {},
-            error: "Error: Invalid student id"
+            error: 'Error: Invalid student id'
         }));
         logger.warn(`Student id "${id}" was invalid`);
         return;
     }
 
-    if (!["IN", "OUT"].includes(sign)) {
+    if (!['IN', 'OUT'].includes(sign)) {
         res.status(400).end(JSON.stringify({
             data: {},
-            error: "Error: use `sign=IN` or `sign=OUT`. Current request was invalid."
+            error: 'Error: use `sign=IN` or `sign=OUT`. Current request was invalid.'
         }));
         logger.warn(`sign "${sign}" was not valid.`);
         return;
@@ -58,33 +58,31 @@ apiRouter.post('/submitstudent', requiresAuth(), function (req, res, next) {
         // get student will throw an error if the student cannot be found
         response = {
             data: getStudent(id),
-            error: ""
+            error: ''
         };
     } catch (err) {
         res.status(404).end(JSON.stringify({
             data: {},
             error: `Student "${id}" was not found`
         }));
-        logger.warn(`Student "${id}" was not found.`)
+        logger.warn(`Student "${id}" was not found.`);
         return;
     }
 
     const student = response.data;
     const teacher = req.oidc.user;
 
-    // THIS ORDER MUST MATCH THE COLUMNS IN THE DATABASE/GOOGLE SHEET
-    const databaseSubmission = [
-        student.id,         // id
-        student.lastName,   // lastName
-        student.firstName,  // firstName
-        student.middleName, // middleName
-        teacher.name,       // teacherName
-        sign,               // checking IN / OUT
-        time,               // time
-        student.email,      // studentEmail
-        teacher.email       // teacherEmail
-    ];
-    addToQueue(databaseSubmission);
+    await addToQueue({
+        id: student.id,
+        lastName: student.lastName,
+        firstName: student.firstName,
+        middleName: student.middleName,
+        teacherName: teacher.name,
+        checkIn: sign,  // IN / OUT
+        time: time,
+        studentEmail: student.email,
+        teacherEmail: teacher.email
+    });
 
     res.end(JSON.stringify(response));
 });
@@ -103,9 +101,9 @@ apiRouter.get('/getstudent/studentid=:id', requiresAuth(), function (req, res, n
     if (!/STU\d+/.test(id)) {
         res.status(404).end(JSON.stringify({
             data: {},
-            error: "Error: Invalid student id"
+            error: 'Error: Invalid student id'
         }));
-        logger.warn(`Student id "${id}" was invalid`)
+        logger.warn(`Student id "${id}" was invalid`);
         return;
     }
 
@@ -113,21 +111,21 @@ apiRouter.get('/getstudent/studentid=:id', requiresAuth(), function (req, res, n
     try {
         response = {
             data: getStudent(id),
-            error: ""
+            error: ''
         };
     } catch (err) {
         response = {
             data: {},
             error: `Student "${id}" was not found.`
-        }
-        logger.warn(`Student "${id}" was not found.`)
+        };
+        logger.warn(`Student "${id}" was not found.`);
     }
     res.end(JSON.stringify(response));
 });
 
 /**
  * @name get/api/search
- * @description takes a parameter and tries to find a 
+ * @description takes a parameter and tries to find a
  * student name that matches.
  * @type {StudentSearchResponse}
  */
@@ -138,7 +136,7 @@ apiRouter.get('/search', requiresAuth(), function (req, res, next) {
     if (!commonName) {
         res.status(400).end(JSON.stringify({
             data: {},
-            error: "Please fill out a student name."
+            error: 'Please fill out a student name.'
         }));
         return;
     }
@@ -148,13 +146,13 @@ apiRouter.get('/search', requiresAuth(), function (req, res, next) {
     if (students.length > 0) {
         response = {
             data: students,
-            error: ""
+            error: ''
         };
     } else {
         response = {
             data: {},
-            error: `Student could not be found. Consider using their last name.`
-        }
+            error: 'Student could not be found. Consider using their last name.'
+        };
         logger.trace(`Student "${commonName}" could not be found`);
     }
 
