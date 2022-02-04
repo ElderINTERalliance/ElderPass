@@ -73,7 +73,7 @@ apiRouter.post('/submitstudent', requiresAuth(), async function (req, res, next)
     const student = response.data;
     const teacher = req.oidc.user;
 
-    await addToQueue({
+    addToQueue({
         id: student.id,
         lastName: student.lastName,
         firstName: student.firstName,
