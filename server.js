@@ -25,6 +25,8 @@ const apiRouter = require('./routes/api');
 const { auth } = require('express-openid-connect');
 const { morgan, logger, morganMode, rfsStream } = require("./src/loggers");
 
+process.env.TZ = "America/New_York"; // the time zone this server should be operating in
+
 dotenv.load();
 
 const app = express();
