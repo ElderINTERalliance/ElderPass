@@ -167,8 +167,6 @@ apiRouter.get('/analyze', requiresAuth(), async function (req, res, next) {
     const shouldFilterByDate = req.query.shouldFilterByDate === "true";
     const date = req.query.date;
 
-    logger.info({ shouldFilterByDate, date });
-
     try {
         let response;
         if (shouldFilterByDate) {

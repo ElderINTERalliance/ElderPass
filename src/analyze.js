@@ -3,7 +3,7 @@
  */
 
 const { logger } = require("./loggers");
-const { getDatabase } = require("./sheets");
+const { getDataFromDate, getAllData } = require("./sheets");
 
 // TODO: JSDOC
 function rowToObj(row) {
@@ -51,20 +51,20 @@ function studentIsProblematic(entries) {
 // TODO: JSDOC
 async function getAnalysis(dateStamp) {
     console.time("getData")
-    const db = await getDatabase();
+    let db;
+    if (dateStamp) {
+        db = await getDataFromDate(dateStamp);
+    } else {
+        db = await getAllData();
+    }
     console.timeEnd("getData")
     console.time("processData")
-    let rows = db.map((row) => rowToObj(row._rawData));
 
-    if (dateStamp) {
-        // if the user asked for a specific date,
-        // only return the rows submitted on that date.
-        // I don't know of any way to query this when we
-        // initially pull the data.
-        rows = rows.filter((entry) =>
-            datesAreOnSameDay(new Date(entry.time), new Date(dateStamp))
-        );
+    if (Object.keys(db).length === 0) {
+        return {};
     }
+
+    let rows = db.map((row) => rowToObj(row._rawData));
 
     // group data by student
     const data = {};

@@ -154,23 +154,35 @@ const TIMEOUT = 10000; // 10 seconds
 const interval = setInterval(submitQueue, TIMEOUT);
 
 // TODO: JSDOC
+async function getDataFromSheetName(sheetName) {
+	if (!getListOfSheetNames().includes(sheetName)) {
+		logger.info(`getDataFromDate: no data found for sheetName "${sheetName}"`);
+		return [];
+	}
+	const sheet = doc.sheetsByTitle[sheetName];
+	const rows = await sheet.getRows();
+	return rows;
+}
+
+// TODO: JSDOC
 async function getDataFromDate(ISOTimestamp) {
 	await authenticate();
 	await doc.loadInfo();
 	const sheetName = getLocalDateStampFromISO(ISOTimestamp);
-	if (!getListOfSheetNames().includes(sheetName)) {
-		logger.info("getDataFromDate: no data found");
-		return [];
-	}
-	const sheet = doc.sheetsByTitle[sheetName];
-	const rows = await sheet.getRows({
-		offset: 1
-	});
-	return rows;
+	return await getDataFromSheetName(sheetName);
 }
 
+// TODO: JSDOC
+// @throws error
 async function getAllData() {
-	// not implemented
+	logger.info("getting all data!");
+	await authenticate();
+	await doc.loadInfo();
+	const sheetNames = getListOfSheetNames();
+	// execute async calls in parallel
+	const promises = sheetNames.map((sheet) => getDataFromSheetName(sheet));
+	const results = await Promise.all(promises);
+	return results.flat();
 }
 
 // gracefully shutdown
@@ -184,5 +196,6 @@ process.on('SIGINT', async () => {
 
 module.exports = {
 	addToQueue,
-	getDataFromDate
+	getDataFromDate,
+	getAllData
 };
