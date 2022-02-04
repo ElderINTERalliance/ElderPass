@@ -95,6 +95,16 @@ async function submitQueue() {
 const TIMEOUT = 10000; // 10 seconds
 const interval = setInterval(submitQueue, TIMEOUT);
 
+async function getDatabase() {
+	await authenticate();
+	await doc.loadInfo();
+	const sheet = doc.sheetsByIndex[0];
+	const rows = await sheet.getRows({
+		offset: 1
+	});
+	return rows;
+}
+
 // gracefully shutdown
 process.on('SIGINT', async () => {
 	logger.trace("SHUTTING DOWN");
@@ -105,5 +115,6 @@ process.on('SIGINT', async () => {
 });
 
 module.exports = {
-	addToQueue
+	addToQueue,
+	getDatabase
 };

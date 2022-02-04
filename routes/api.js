@@ -21,6 +21,7 @@ const { requiresAuth } = require('express-openid-connect');
 const { logger } = require('../src/loggers');
 const { getStudent, searchForStudents } = require('../src/student_data');
 const { addToQueue } = require('../src/sheets.js');
+const { getAnalysis } = require('../src/analyze');
 
 /**
  * @name post/api/submitstudent
@@ -123,6 +124,7 @@ apiRouter.get('/getstudent/studentid=:id', requiresAuth(), function (req, res, n
     res.end(JSON.stringify(response));
 });
 
+// TODO: JSDOC parameters
 /**
  * @name get/api/search
  * @description takes a parameter and tries to find a
@@ -157,6 +159,39 @@ apiRouter.get('/search', requiresAuth(), function (req, res, next) {
     }
 
     res.end(JSON.stringify(response));
+});
+
+
+// TODO: JSDOC
+apiRouter.get('/analyze', requiresAuth(), async function (req, res, next) {
+    const shouldFilterByDate = req.query.shouldFilterByDate === "true";
+    const date = req.query.date;
+
+    logger.info({ shouldFilterByDate, date });
+
+    try {
+        let response;
+        if (shouldFilterByDate) {
+            response = await getAnalysis(date);
+        } else {
+            response = await getAnalysis();
+        }
+
+        res.end(JSON.stringify({
+            allData: response.allData,
+            problematicStudents: response.problematicStudents,
+            error: ""
+        }));
+    } catch (error) {
+        logger.error("/analyze: ", error);
+        res.status(400).end(JSON.stringify({
+            allData: [],
+            problematicStudents: [],
+            error: 'Could not analyze data.'
+        }));
+    } finally {
+        console.timeEnd("processData");
+    }
 });
 
 module.exports = apiRouter;
