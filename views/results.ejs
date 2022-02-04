@@ -1,0 +1,33 @@
+<%- include('partials/header') -%>
+
+<div id="student-search-form">
+    <br>
+    <h1>Results:</h1>
+
+    <label for="should-filter-date">Should filter date?</label>
+    <input type="checkbox" id="should-filter-date" name="should-filter-date" 
+        checked>
+
+    <br>
+
+    <label for="date-filter">Date to filter:</label>
+    <input type="date" id="date-filter" name="date-filter"
+        value="<%= todaysDate %>" min="2021-01-01" max="2027-01-01">
+
+    <br>
+
+    <button id="submit">
+        Submit
+    </button>
+
+
+    <br> <br>
+
+    <pre id="output">
+        Output goes here
+    </pre>
+</div>
+
+<script src="/public/results.js" type="module"></script>
+
+<%- include('partials/footer') -%>

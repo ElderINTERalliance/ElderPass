@@ -165,10 +165,9 @@ async function getDataFromSheetName(sheetName) {
 }
 
 // TODO: JSDOC
-async function getDataFromDate(ISOTimestamp) {
+async function getDataFromDate(sheetName) {
 	await authenticate();
 	await doc.loadInfo();
-	const sheetName = getLocalDateStampFromISO(ISOTimestamp);
 	return await getDataFromSheetName(sheetName);
 }
 
@@ -197,5 +196,6 @@ process.on('SIGINT', async () => {
 module.exports = {
 	addToQueue,
 	getDataFromDate,
-	getAllData
+	getAllData,
+	getLocalDateStampFromISO
 };

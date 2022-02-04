@@ -58,6 +58,18 @@ async function submitStudent(studentId, direction) {
 }
 
 /**
+ * asks the server for data analysis
+ * @param {string} ISOTimestamp 
+ * @param {boolean} shouldFilterByDate
+ * @returns {Object} - TODO: Figure this out
+ */
+async function getAnalysis(ISOTimestamp, shouldFilterByDate) {
+    const url = `/api/analyze?shouldFilterByDate=${shouldFilterByDate}&date=${ISOTimestamp ?? ""}`;
+    console.log(url);
+    return await sendData(url, "GET");
+}
+
+/**
  * Clears all the children of an element
  * @param {HTMLElement} element 
  */
@@ -104,4 +116,11 @@ class StudentNotFoundError extends Error {
     }
 }
 
-export { searchForStudents, submitStudent, clearAllChildren, createDiv, createEle };
+export {
+    searchForStudents,
+    submitStudent,
+    clearAllChildren,
+    createDiv,
+    createEle,
+    getAnalysis
+};

@@ -4,7 +4,7 @@
 
 const router = require('express').Router();
 const { requiresAuth } = require('express-openid-connect');
-// const { logger } = require('../src/loggers');
+const { getLocalDateStampFromISO } = require('../src/sheets');
 
 /**
  * @name get/
@@ -34,6 +34,18 @@ router.get('/search', requiresAuth(), function (req, res, next) {
 router.get('/scan', requiresAuth(), function (req, res, next) {
 	res.render('scan', {
 		title: 'ElderPass Scanner',
+	});
+});
+
+/**
+ * @name get/results
+ * @description the user's profile (requires authentication)
+ */
+router.get('/results', requiresAuth(), function (req, res, next) {
+	const dateStamp = getLocalDateStampFromISO(new Date().toISOString());
+	res.render('results', {
+		todaysDate: dateStamp,
+		title: 'ElderPass Results'
 	});
 });
 

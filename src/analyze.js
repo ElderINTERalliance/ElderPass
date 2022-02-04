@@ -20,13 +20,6 @@ function rowToObj(row) {
     };
 }
 
-// TODO: JSDOC
-function datesAreOnSameDay(first, second) {
-    return first.getFullYear() === second.getFullYear() &&
-        first.getMonth() === second.getMonth() &&
-        first.getDate() === second.getDate();
-}
-
 /**
  * checks to see if the data we have on a student is problematic.
  * "Problematic" means that they either did not check in in time, or at all.
@@ -46,9 +39,15 @@ function studentIsProblematic(entries) {
     return timesIn !== timesOut;
     // TODO: Pick up here tomorrow
     // TODO: extract into function
+    // TODO: flag when the check in/out times are too far apart
 }
 
 // TODO: JSDOC
+/**
+ * Analyzes the data on that date
+ * @param {string} dateStamp - YYYY-MM-DD
+ * @returns {Object} TODO: Fill this out
+ */
 async function getAnalysis(dateStamp) {
     console.time("getData")
     let db;
