@@ -17,12 +17,6 @@
  * @property {"IN"|"OUT"} checkIn - Whether the student is checking in or out
  */
 
-/**
- * @param {Array} arr - The array with all of the data to submit
- * @see DatabaseSubmission
- * @description - This will add a value to the queue of things to upload
- */
-
 "use strict";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
@@ -49,8 +43,11 @@ async function authenticate() {
 	}
 }
 
-// TODO: JSDOC
-// @throws Error
+/**
+ * Submits to google sheets
+ * @param {DatabaseSubmission} databaseSubmission 
+ * @throws {Error} - This can throw an error in authenticating or in submitting the data.
+ */
 async function submitToDatabase(databaseSubmission) {
 	// saves a single student to Google Sheets
 	// REVIEW - Is there any way to save more than one at a time?
@@ -63,12 +60,21 @@ async function submitToDatabase(databaseSubmission) {
 
 let queue = [/* array of DatabaseSubmissions */];
 
-// TODO: JSDOC
+/**
+ * Adds to the queue of submissions.
+ * We don't want the user to wait to submit to the database
+ * for the sake of performance.
+ * @param {DatabaseSubmission} databaseSubmission 
+ */
 function addToQueue(databaseSubmission) {
 	queue.push(databaseSubmission);
 }
 
-// TODO: JSDOC
+/**
+ * Attempts to submit the queue of database submissions.
+ * This is called in an interval in order to offload the
+ * work of submitting to the database. 
+ */
 async function submitQueue() {
 	if (queue.length === 0) {
 		logger.trace("nothing to append");
