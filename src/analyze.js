@@ -30,17 +30,22 @@ function datesAreOnSameDay(first, second) {
 /**
  * checks to see if the data we have on a student is problematic.
  * "Problematic" means that they either did not check in in time, or at all.
- * @param {DatabaseSubmission[]} entries
+ * @param {DatabaseSubmission[]} entries - all of the rows associated with that student, sorted by time
  * @returns {boolean} - true if the student is problematic
  */
 function studentIsProblematic(entries) {
-    const checkingIn = entries.filter((entry) => entry.checkIn === "IN");
-    const checkingOut = entries.filter((entry) => entry.checkIn === "OUT");
-
-    if (checkingIn.length !== checkingOut.length)
-        return true;
+    let timesIn = 0;
+    let timesOut = 0;
+    for (let i = 0; i < entries.length; i++) {
+        if (entries[i].checkIn === "IN") {
+            timesIn++;
+        } else if (entries[i].checkIn === "OUT") {
+            timesOut++;
+        }
+    }
+    return timesIn !== timesOut;
     // TODO: Pick up here tomorrow
-    return false;
+    // TODO: extract into function
 }
 
 // TODO: JSDOC
