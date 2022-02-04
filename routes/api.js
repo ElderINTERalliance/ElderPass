@@ -178,15 +178,13 @@ apiRouter.get('/analyze', requiresAuth(), async function (req, res, next) {
         }
 
         res.end(JSON.stringify({
-            allData: response.allData,
-            problematicStudents: response.problematicStudents,
+            data: response,
             error: ""
         }));
     } catch (error) {
         logger.error("/analyze: ", error);
         res.status(400).end(JSON.stringify({
-            allData: [],
-            problematicStudents: [],
+            data: [],
             error: 'Could not analyze data.'
         }));
     } finally {

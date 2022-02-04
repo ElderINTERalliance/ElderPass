@@ -11,3 +11,5 @@
 - add favicon
 - improve mobile experience
 
+- restructure database to write to sheets based on date
+   - then, we could pull back data without having to pull back *all* the data

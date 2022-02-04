@@ -28,6 +28,8 @@ function datesAreOnSameDay(first, second) {
 }
 
 /**
+ * checks to see if the data we have on a student is problematic.
+ * "Problematic" means that they either did not check in in time, or at all.
  * @param {DatabaseSubmission[]} entries
  * @returns {boolean} - true if the student is problematic
  */
@@ -39,21 +41,6 @@ function studentIsProblematic(entries) {
         return true;
     // TODO: Pick up here tomorrow
     return false;
-}
-
-/**
- * Finds all of the students who have checked in too late or not at all.
- * @param {Object} data - an object with all of the movement data organized by student id
- * @returns {number[]} - all of the students with problematic data
- */
-function getProblematicStudents(data) {
-    const students = [];
-    for (const [studentId, entries] of Object.entries(data)) {
-        if (studentIsProblematic(entries)) {
-            students.push(studentId);
-        }
-    }
-    return students;
 }
 
 // TODO: JSDOC
@@ -77,18 +64,17 @@ async function getAnalysis(dateStamp) {
     // group data by student
     const data = {};
     for (const row of rows) {
-        data[row.id] ??= [];
-        data[row.id].push(row);
+        data[row.id] ??= {};
+        data[row.id].entries ??= [];
+        data[row.id].entries.push(row);
     }
 
     for (const studentId in data) {
-        data[studentId].sort((a, b) => a.time.localeCompare(b.time));
+        data[studentId].entries.sort((a, b) => a.time.localeCompare(b.time));
+        data[studentId].isProblematic = studentIsProblematic(data[studentId].entries);
     }
 
-    return {
-        allData: data,
-        problematicStudents: getProblematicStudents(data)
-    };
+    return data;
 }
 
 module.exports = { getAnalysis };
