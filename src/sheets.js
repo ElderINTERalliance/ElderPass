@@ -44,6 +44,62 @@ async function authenticate() {
 }
 
 /**
+ * This is to be used when working with the google sheet.
+ * @param {string} ISOTimestamp 
+ * @returns {string} - YYYY-M-D
+ */
+function getLocalDateStampFromISO(ISOTimestamp) {
+	const date = new Date(ISOTimestamp);
+	const yyyy = date.getFullYear();
+	const mm = (date.getMonth() + 1).toString().padStart(2, "0");
+	const dd = date.getDate().toString().padStart(2, "0");
+	return `${yyyy}-${mm}-${dd}`;
+}
+
+/**
+ * NOTE: doc.loadinfo() must be called before calling this.
+ * @returns {string[]} - Sheet names
+ */
+function getListOfSheetNames() {
+	return Object.keys(doc.sheetsByTitle);
+}
+
+// TODO: add jsdoc
+// @throws error
+async function ensureSheetExists(sheetName) {
+	if (!getListOfSheetNames().includes(sheetName)) {
+		const headerValues = [
+			"id",
+			"lastName",
+			"firstName",
+			"middleName",
+			"teacherName",
+			"checkIn",
+			"time",
+			"studentEmail",
+			"teacherEmail"
+		];
+		// create sheet with a name and initial values
+		await doc.addSheet({
+			title: sheetName,
+			headerValues: headerValues
+		});
+		const sheet = doc.sheetsByTitle[sheetName];
+		// make header values bold
+		await sheet.loadCells("A1:I1");
+		for (let col = 0; col < headerValues.length; col++) {
+			const cell = sheet.getCell(0, col);
+			cell.textFormat = { bold: true };
+		}
+		await sheet.saveUpdatedCells();
+		logger.info(`created sheet "${sheetName}"`);
+	} else {
+		logger.trace(`did not create sheet "${sheetName}"`);
+	}
+}
+
+// TODO: make work with date
+/**
  * Submits to google sheets
  * @param {DatabaseSubmission} databaseSubmission 
  * @throws {Error} - This can throw an error in authenticating or in submitting the data.
@@ -53,8 +109,10 @@ async function submitToDatabase(databaseSubmission) {
 	// REVIEW - Is there any way to save more than one at a time?
 	await authenticate();
 	await doc.loadInfo();
-	const data = doc.sheetsByIndex[0];
-	const row = await data.addRow(databaseSubmission);
+	const sheetName = getLocalDateStampFromISO(databaseSubmission.time);
+	await ensureSheetExists(sheetName);
+	const data = doc.sheetsByTitle[sheetName];
+	await data.addRow(databaseSubmission);
 	logger.trace(`submitted a row to Google sheets`);
 }
 
@@ -95,14 +153,24 @@ async function submitQueue() {
 const TIMEOUT = 10000; // 10 seconds
 const interval = setInterval(submitQueue, TIMEOUT);
 
-async function getDatabase() {
+// TODO: JSDOC
+async function getDataFromDate(ISOTimestamp) {
 	await authenticate();
 	await doc.loadInfo();
-	const sheet = doc.sheetsByIndex[0];
+	const sheetName = getLocalDateStampFromISO(ISOTimestamp);
+	if (!getListOfSheetNames().includes(sheetName)) {
+		logger.info("getDataFromDate: no data found");
+		return [];
+	}
+	const sheet = doc.sheetsByTitle[sheetName];
 	const rows = await sheet.getRows({
 		offset: 1
 	});
 	return rows;
+}
+
+async function getAllData() {
+	// not implemented
 }
 
 // gracefully shutdown
@@ -116,5 +184,5 @@ process.on('SIGINT', async () => {
 
 module.exports = {
 	addToQueue,
-	getDatabase
+	getDataFromDate
 };
