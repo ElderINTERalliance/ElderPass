@@ -37,6 +37,8 @@ function studentIsProblematic(entries) {
 
     if (checkingIn.length !== checkingOut.length)
         return true;
+    // TODO: Pick up here tomorrow
+    return false;
 }
 
 /**
