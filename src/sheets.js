@@ -55,7 +55,7 @@ async function submitToDatabase(databaseSubmission) {
 	await doc.loadInfo();
 	const data = doc.sheetsByIndex[0];
 	const row = await data.addRow(databaseSubmission);
-	logger.info(`submitted a row to Google sheets`);
+	logger.trace(`submitted a row to Google sheets`);
 }
 
 let queue = [/* array of DatabaseSubmissions */];
@@ -80,7 +80,7 @@ async function submitQueue() {
 		logger.trace("nothing to append");
 		return;
 	}
-	logger.info("attempting to submit students...");
+	logger.info(`attempting to submit ${queue.length} students...`);
 	// add everything from the queue to google sheets
 	try {
 		for (const submission of [...queue]) {
