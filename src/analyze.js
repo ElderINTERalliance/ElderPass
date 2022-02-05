@@ -5,9 +5,24 @@
 const { logger } = require("./loggers");
 const { getDataFromDate, getAllData } = require("./sheets");
 
+/**
+ * Gets the full name of the student
+ * @param {Student} student 
+ * @returns {string} - Firstname ?Middlename Lastname
+ */
+function getFullName(student) {
+    let fullName = student.firstName;
+    if (student.middleName) {
+        fullName += ` ${student.middleName} `;
+    } else {
+        fullName += " ";
+    }
+    return fullName + student.lastName;
+}
+
 // TODO: JSDOC
 function rowToObj(row) {
-    return {
+    const student = {
         id: row[0],
         lastName: row[1],
         firstName: row[2],
@@ -18,6 +33,8 @@ function rowToObj(row) {
         studentEmail: row[7],
         teacherEmail: row[8]
     };
+    student.fullName = getFullName(student);
+    return student;
 }
 
 /**
@@ -41,6 +58,7 @@ function studentIsProblematic(entries) {
     // TODO: extract into function
     // TODO: flag when the check in/out times are too far apart
 }
+
 
 // TODO: JSDOC
 /**

@@ -3,7 +3,7 @@
  * @module Results
  */
 
-import { getAnalysis } from "./lib.mjs";
+import { clearAllChildren, createEle, getAnalysis } from "./lib.mjs";
 
 /**
  * gets the user's selection as a boolean
@@ -18,19 +18,78 @@ function shouldFilterByDate() {
  * @returns {string}
  */
 function getSelectedDate() {
-    const dateStamp = document.getElementById("date-filter").value;
-    console.log(dateStamp)
-    return dateStamp;
+    return document.getElementById("date-filter").value;
 }
 
+// TODO: JSDOC
+function createStudentEle(data) {
+    const row = document.createElement("tr");
+
+    // we are guaranteed to have at least one entry
+    const studentName = data.entries[0].fullName;
+
+    console.log(data);
+
+    row.appendChild(createEle("td", studentName));
+
+    const entries = document.createElement("table");
+    const heading = document.createElement("tr");
+    heading.appendChild(createEle("th", "Direction"));
+    heading.appendChild(createEle("th", "Teacher Name"));
+    heading.appendChild(createEle("th", "Time"));
+    entries.appendChild(heading);
+
+    for (const entry of data.entries) {
+        const info = document.createElement("tr");
+        // TODO: Format time
+        info.appendChild(createEle("td", entry.checkIn));
+        info.appendChild(createEle("td", entry.teacherName));
+        info.appendChild(createEle("td", entry.time));
+        entries.appendChild(info);
+    }
+    row.appendChild(entries);
+
+    return row;
+}
+
+// TODO: JSDOC
 function displayResults(results) {
-    document.getElementById("output").textContent =
-        JSON.stringify(results, null, 4);
+    const output = document.getElementById("output");
+    clearAllChildren(output);
+    if (results.error !== "") {
+        output.appendChild(createEle("tr", "An unexpected error has occurred."))
+    } else if (Object.keys(results.data).length === 0) {
+        // if our object is empty
+        output.appendChild(createEle("tr", "No students found"));
+    } else {
+        const row = document.createElement("tr");
+        row.appendChild(createEle("th", "Student Name"));
+        row.appendChild(createEle("th", "Student Data"));
+        output.appendChild(row);
+
+        for (const id in results.data) {
+            output.appendChild(createStudentEle(results.data[id]));
+        }
+    }
+}
+
+// TODO: JSDOC
+function displayLoading() {
+    const output = document.getElementById("output");
+    const result = document.createElement("tr")
+
+    result.appendChild(createEle("td", "Loading..."));
+
+    clearAllChildren(output);
+    output.appendChild(result);
 }
 
 async function submit() {
-    const response = await getAnalysis(getSelectedDate(), shouldFilterByDate())
+    displayLoading();
+    const response = await getAnalysis(getSelectedDate(), shouldFilterByDate());
     displayResults(response);
 }
 
-document.getElementById("submit").addEventListener("click", submit);
+document
+    .getElementById("submit")
+    .addEventListener("click", submit);
