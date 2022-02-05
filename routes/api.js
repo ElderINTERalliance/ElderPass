@@ -167,6 +167,17 @@ apiRouter.get('/analyze', requiresAuth(), async function (req, res, next) {
     const shouldFilterByDate = req.query.shouldFilterByDate === "true";
     const date = req.query.date;
 
+    // make sure the date fits the format
+    // YYYY-MM-DD
+    if (!/^\d{4}-\d{2}-\d{2}$/gm.test(date)) {
+        res.status(404).end(JSON.stringify({
+            data: {},
+            error: 'Error: Invalid date format. Please use YYYY-MM-DD'
+        }));
+        logger.warn(`Date "${date}" was invalid`);
+        return;
+    }
+
     try {
         let response;
         if (shouldFilterByDate) {
