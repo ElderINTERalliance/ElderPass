@@ -24,6 +24,7 @@ function getSelectedDate() {
 // TODO: JSDOC
 function createStudentEle(data) {
     const row = document.createElement("tr");
+    row.className = "student-row";
 
     // we are guaranteed to have at least one entry
     const studentName = data.entries[0].fullName;
@@ -34,9 +35,10 @@ function createStudentEle(data) {
 
     const entries = document.createElement("table");
     const heading = document.createElement("tr");
-    heading.appendChild(createEle("th", "Direction"));
-    heading.appendChild(createEle("th", "Teacher Name"));
-    heading.appendChild(createEle("th", "Time"));
+    heading.className = "student-data-headings";
+    heading.appendChild(createEle("th", "Direction", "direction subheading"));
+    heading.appendChild(createEle("th", "Teacher Name", "teacher-name subheading"));
+    heading.appendChild(createEle("th", "Time", "time subheading"));
     entries.appendChild(heading);
 
     for (const entry of data.entries) {
@@ -63,6 +65,7 @@ function displayResults(results) {
         output.appendChild(createEle("tr", "No students found"));
     } else {
         const row = document.createElement("tr");
+        row.className = "main-heading";
         row.appendChild(createEle("th", "Student Name"));
         row.appendChild(createEle("th", "Student Data"));
         output.appendChild(row);
