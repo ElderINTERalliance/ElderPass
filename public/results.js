@@ -1,4 +1,3 @@
-
 /**
  * @module Results
  */
@@ -18,7 +17,22 @@ function shouldFilterByDate() {
  * @returns {string}
  */
 function getSelectedDate() {
-    return document.getElementById("date-filter").value;
+    if (document.getElementById('should-filter-date').checked) {
+        return document.getElementById("date-filter").value;
+    } else {
+        let defaultDate = "2022-02-15"
+        return defaultDate
+    }
+}
+
+function useDateQuery(ckType) {
+    var checked = document.getElementById("should-filter-date");
+    var dateBox = document.getElementById("date-filter");
+    if (checked.checked) {
+        dateBox.disabled = false
+    } else {
+        dateBox.disabled = true
+    }
 }
 
 // TODO: JSDOC
@@ -34,20 +48,27 @@ function createStudentEle(data) {
     row.appendChild(createEle("td", studentName));
 
     const entries = document.createElement("table");
-    const heading = document.createElement("tr");
-    heading.className = "student-data-headings";
-    heading.appendChild(createEle("th", "Direction", "direction subheading"));
-    heading.appendChild(createEle("th", "Teacher Name", "teacher-name subheading"));
-    heading.appendChild(createEle("th", "Time", "time subheading"));
-    entries.appendChild(heading);
+    const teacherheadingdata = document.createElement("tr");
+    const teacherheading = document.createElement("thead");
+    const teacherbody = document.createElement("tbody");
+    teacherheading.className = "table table-striped table-bordered"
+    teacherheadingdata.className = "student-data-headings table-striped table-dark";
+    entries.className = "table table-striped table-sm"
+    teacherheadingdata.appendChild(createEle("th", "Direction", "direction subheading"));
+    teacherheadingdata.appendChild(createEle("th", "Teacher Name", "teacher-name subheading"));
+    teacherheadingdata.appendChild(createEle("th", "Time", "time subheading"));
+    teacherheading.appendChild(teacherheadingdata);
+    entries.appendChild(teacherheading);
+
 
     for (const entry of data.entries) {
         const info = document.createElement("tr");
         // TODO: Format time
-        info.appendChild(createEle("td", entry.checkIn));
-        info.appendChild(createEle("td", entry.teacherName));
-        info.appendChild(createEle("td", entry.time));
-        entries.appendChild(info);
+        info.appendChild(createEle("td", entry.checkIn, ""));
+        info.appendChild(createEle("td", entry.teacherName, ""));
+        info.appendChild(createEle("td", entry.time, ""));
+        teacherbody.appendChild(info);
+        entries.appendChild(teacherbody);
     }
     row.appendChild(entries);
 
@@ -96,3 +117,7 @@ async function submit() {
 document
     .getElementById("submit")
     .addEventListener("click", submit);
+
+document
+    .getElementById("should-filter-date")
+    .addEventListener("click", useDateQuery);

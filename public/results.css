@@ -1,11 +1,21 @@
-tr.student-row > table > tr.student-data-headings {
-  display: table-row;
-  visibility: hidden;
-  background: red;
+/*tr.student-row>table>tr.student-data-headings {
+    display: table-row;
+    visibility: hidden;
+    background: red;
 }
+*/
+
+
 /* select only the first row from the student data */
-tr.main-heading + tr.student-row > table > tr.student-data-headings {
-  display: table-row;
-  visibility: visible;
-  background: magenta;
+
+
+/*
+tr.main-heading+tr.student-row>table>tr.student-data-headings {
+    display: table-row;
+    visibility: visible;
+    background: magenta;
+}*/
+
+td {
+    font-size: 75%;
 }

@@ -1,37 +1,39 @@
 <%- include('partials/header') -%>
 
-<div id="student-search-form">
-    <br>
-    <h1>Results:</h1>
+    <div id="student-search-form">
+        <div class="text-center display-4 my-2">Results</div>
 
-    <label for="should-filter-date">Should filter date?</label>
-    <input type="checkbox" id="should-filter-date" name="should-filter-date" 
-        checked>
+        <div class="input-group input-group mb-2">
+            <span class="input-group-text">Filter by Date?</span>
+            <div class="input-group-text">
+                <input type="checkbox" id="should-filter-date" name="should-filter-date" checked>
+            </div>
+            <span class="input-group-text">Date:</span>
+            <input type="date" id="date-filter" name="date-filter" value="<%= todaysDate %>" min="2021-01-01" max="2027-01-01" class="rounded-end">
+            <button id="submit" class="ms-1 rounded-1 btn btn-success">
+                Submit
+            </button>
+        </div>
 
-    <br>
+        <!--<label for="should-filter-date">Should filter date?</label>
+        <input type="checkbox" id="should-filter-date" name="should-filter-date" checked>
 
-    <label for="date-filter">Date to filter:</label>
-    <input type="date" id="date-filter" name="date-filter"
-        value="<%= todaysDate %>" min="2021-01-01" max="2027-01-01">
+        <br>
 
-    <br>
+        <label for="date-filter">Date to filter:</label>
+        <input type="date" id="date-filter" name="date-filter" value="<%= todaysDate %>" min="2021-01-01" max="2027-01-01">
 
-    <button id="submit">
-        Submit
-    </button>
+        <br>-->
 
+        <table id="output" class="table table-bordered border border-1 rounded-2 table-sm">
+            <tr>
+                <td>
+                    Nothing here yet!
+                </td>
+            </tr>
+        </table>
+    </div>
 
-    <br> <br>
+    <script src="/public/results.js" type="module"></script>
 
-    <table id="output">
-        <tr>
-            <td>
-                Nothing here yet!
-            </td>
-        </tr>
-    </table>
-</div>
-
-<script src="/public/results.js" type="module"></script>
-
-<%- include('partials/footer') -%>
+    <%- include('partials/footer') -%>

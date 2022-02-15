@@ -60,16 +60,16 @@ function onScanSuccess(decodedText, decodedResult) {
     // if either the student id or the direction has changed
     if (decodedText !== lastResult.lastSTU || getDirection() !== lastResult.lastDirection) {
         lastResult = {
-            lastDirection: getDirection(),
-            lastSTU: decodedText
-        }
-        // If the decodedText is invalid, we let the server fail to find it.
-        // That way, we have logs
+                lastDirection: getDirection(),
+                lastSTU: decodedText
+            }
+            // If the decodedText is invalid, we let the server fail to find it.
+            // That way, we have logs
         handleStudentID(decodedText);
     }
 }
 
-docReady(function () {
+docReady(function() {
     var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
         fps: 10,
         qrbox: 250,

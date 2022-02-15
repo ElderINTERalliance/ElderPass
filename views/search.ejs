@@ -1,23 +1,25 @@
 <%- include('partials/header') -%>
 
-<div id="student-search-form">
-    <!-- TODO: add explanatory notes for keyboard shortcuts -->
-    <br>
+    <div id="student-search-form">
+        <!-- TODO: add explanatory notes for keyboard shortcuts -->
+        <div class="text-center display-4 my-2">Search</div>
 
-    <%- include('partials/history') -%>
-    <%- include('partials/direction') -%>
+        <%- include('partials/history') -%>
 
-	<label for="studentName">Student Name:</label>
-	<input type="text" id="studentName" name="studentName" autofocus>
-    <button id="submit" tabindex="-1">
+            <div class="input-group mb-2">
+                <span class="input-group-text">Student Name:</span>
+                <input type="text" id="studentName" name="studentName" class="form-control d-inline me-1 rounded-end">
+                <%- include( 'partials/direction') -%>
+            </div>
+            <div class="text-center d-grid">
+                <button class="btn btn-success mb-2 text-center" id="submit" tabindex="-1">
         Search!
-    </button>
-    <br>
-    <div id="submission-data">
-        Nothing submitted yet
+    </button></div>
+            <div id="submission-data">
+                Nothing submitted yet
+            </div>
+
+            <script type="module" src="/public/search.js"></script>
     </div>
 
-    <script type="module" src="/public/search.js"></script>
-</div>
-
-<%- include('partials/footer') -%>
+    <%- include('partials/footer') -%>

@@ -61,7 +61,7 @@ function s(num) {
  */
 function displayStudents(students) {
     const result = document.createElement("div");
-    result.className = "students-search-list";
+    result.className = "students-search-list d-grid gap-1";
     for (const student of students) {
         result.appendChild(createStudentEle(student));
     }
@@ -77,20 +77,21 @@ function displayStudents(students) {
  */
 function createStudentEle(student) {
     const result = document.createElement("div");
-    result.className = "student-data-container";
+    result.className = "student-data-container d-inline-block";
 
     // add button to choose student
     const button = document.createElement("button");
-    button.addEventListener("click", async () =>
+    button.addEventListener("click", async() =>
         selectStudent(student, getDirection())
     );
+    button.className = "btn btn-outline-primary btn-sm w-100"
 
     // add the student data
     const ele = document.createElement("div");
     ele.className = "student-data";
 
-    ele.appendChild(createEle("h4", student.fullName, "student-full-name"));
-    ele.appendChild(createDiv(`(${student.gradYear})`, "student-grad-year"));
+    ele.appendChild(createEle("h4", student.fullName, "student-full-name my-0 mx-auto px-auto d-inline-block me-1"));
+    ele.appendChild(createDiv(`(${student.gradYear})`, "student-grad-year fs-6 d-inline-block"));
 
     button.appendChild(ele);
     result.appendChild(button);

@@ -1,17 +1,17 @@
 <%- include('partials/header') -%>
 
-<div id="student-search-form">
-    <br>
-    <h1>Scan</h1>
+    <div id="student-search-form">
+        <div class="text-center display-4 my-2">Scan</div>
 
-    <%- include('partials/history') -%>
-    <%- include('partials/direction') -%>
+        <%- include('partials/history') -%>
 
-    <h1> QR Code Reader: </h1>
-    <div id="qr-reader" style="width:500px"></div>
+            <div class="d-block h1 h-auto text-center"> QR Code Reader:
+                <%- include('partials/direction') -%>
+            </div>
+            <div id="qr-reader" class="container-fluid rounded-3 h-auto" style="max-width: 500px; min-height:350px"></div>
 
-    <script type="module" src="/public/scan.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
-</div>
+            <script type="module" src="/public/scan.js"></script>
+            <script src="https://unpkg.com/html5-qrcode"></script>
+    </div>
 
-<%- include('partials/footer') -%>
+    <%- include('partials/footer') -%>

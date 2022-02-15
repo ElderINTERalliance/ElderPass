@@ -12,6 +12,7 @@ import { searchForStudents, submitStudent as submitStudentToServer, clearAllChil
 
 function clearHistory() {
     clearAllChildren(document.getElementById("history"));
+    clearAllChildren(document.getElementById("history-list"));
 }
 
 function mountHistory() {
@@ -37,6 +38,9 @@ function createHistoryEle(student, direction) {
 function addToHistory(student, direction) {
     document
         .getElementById("history")
+        .prepend(createHistoryEle(student, direction));
+    document
+        .getElementById("history-list")
         .prepend(createHistoryEle(student, direction));
 }
 

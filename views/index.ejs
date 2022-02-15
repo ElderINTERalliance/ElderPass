@@ -1,26 +1,35 @@
 <%- include('partials/header') -%>
 
-<h1 class="text-4xl">Welcome!</h1>
+    <div class="display-3 d-block text-center">Welcome to<img class="d-inline-block h-auto w-25" src="/public/img/logo_main.png">!
+    </div>
 
-<!-- TODO: Make this look nicer -->
+    <!-- TODO: Make this look nicer -->
 
-<% if (locals.isAuthenticated) { %>
-    How would you like to use ElderPass?
-    <br>
-    <ul>
-        <li>
-            <a href="/search">
+    <% if (locals.isAuthenticated) { %>
+        <div class="text-center mt-3 h5 container-md">How would you like to use ElderPass?
+            <br>
+            <div class="text-center px-0">
+                <ul>
+                    <li>
+                        <a class="mt-2 underline btn btn-outline-primary btn-lg" href="/search">
                 Search for a student's name
             </a>
-        </li>
-        <li>
-            <a href="/scan">
+                    </li>
+                    <li>
+                        <a class="mt-2 underline btn btn-outline-primary btn-lg" href="/scan">
                 Scan a student's QR code
             </a>
-        </li>
-    </ul>
-<% } else { %>
-    <p>You are not logged in. <a href="/login" class="underline">Login</a>.</p>
-<% } %>
+                    </li>
+                    <li>
+                        <a class="mt-2 underline btn btn-outline-primary btn-lg" href="/results">
+                Search student log in/out logs
+            </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <% } else { %>
+            <p class="text-center mt-3 h5 container-sm align-middle">You are not logged in.<br><a href="/login" class="mt-2 underline btn btn-outline-primary btn-lg">Login</a></p>
+            <% } %>
 
-<%- include('partials/footer') -%>
+                <%- include('partials/footer') -%>
