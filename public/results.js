@@ -51,7 +51,7 @@ function createStudentEle(data) {
     const teacherheadingdata = document.createElement("tr");
     const teacherheading = document.createElement("thead");
     const teacherbody = document.createElement("tbody");
-    teacherheading.className = "table table-striped table-bordered"
+    teacherheading.className = "table table-striped";
     teacherheadingdata.className = "student-data-headings table-striped table-dark";
     entries.className = "table table-striped table-sm"
     teacherheadingdata.appendChild(createEle("th", "Direction", "direction subheading"));

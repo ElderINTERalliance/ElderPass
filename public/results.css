@@ -1,18 +1,24 @@
-/*tr.student-row>table>tr.student-data-headings {
-    display: table-row;
-    visibility: hidden;
-    background: red;
+tr.student-data-headings {
+  display: table-row;
+  visibility: hidden;
+  line-height: 0;
 }
-*/
+
+thead.table {
+  border-style: none;
+}
+
+.table {
+  margin-bottom: 0 !important;
+}
 
 /* select only the first row from the student data */
 
-/*
-tr.main-heading+tr.student-row>table>tr.student-data-headings {
-    display: table-row;
-    visibility: visible;
-    background: magenta;
-}*/
+tr.main-heading + tr.student-row > table > thead > tr.student-data-headings {
+  display: table-row;
+  visibility: visible;
+  line-height: 1;
+}
 
 td {
   font-size: 75%;
