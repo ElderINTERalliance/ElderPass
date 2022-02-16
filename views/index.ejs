@@ -6,30 +6,32 @@
     <!-- TODO: Make this look nicer -->
 
     <% if (locals.isAuthenticated) { %>
-        <div class="text-center mt-3 h5 container-md">How would you like to use ElderPass?
+        <div class="text-center mt-3 h5 container-md">
+            How would you like to use ElderPass?
             <br>
-            <div class="text-center px-0">
-                <ul>
-                    <li>
+            <div class="text-center px-0 initial-prompt">
+                    <center> <!-- I know I shouldn't use <center> and I don't care -->
                         <a class="mt-2 underline btn btn-outline-primary btn-lg" href="/search">
-                Search for a student's name
-            </a>
-                    </li>
-                    <li>
+                            Search for a student's name
+                        </a>
+                        <br>
                         <a class="mt-2 underline btn btn-outline-primary btn-lg" href="/scan">
-                Scan a student's QR code
-            </a>
-                    </li>
-                    <li>
+                            Scan a student's QR code
+                        </a>
+                        <br>
                         <a class="mt-2 underline btn btn-outline-primary btn-lg" href="/results">
-                Search student log in/out logs
-            </a>
-                    </li>
-                </ul>
+                            Search student log in/out logs 
+                        </a>
+                    </center>
             </div>
         </div>
-        <% } else { %>
-            <p class="text-center mt-3 h5 container-sm align-middle">You are not logged in.<br><a href="/login" class="mt-2 underline btn btn-outline-primary btn-lg">Login</a></p>
-            <% } %>
+    <% } else { %>
+        <p class="text-center mt-3 h5 container-sm align-middle">
+            You are not logged in. Make sure to log in with your <b>Elder Google Account</b>.<br>
+            <a href="/login" class="mt-2 underline btn btn-outline-primary btn-lg">
+                Login
+            </a>
+        </p>
+    <% } %>
 
                 <%- include('partials/footer') -%>

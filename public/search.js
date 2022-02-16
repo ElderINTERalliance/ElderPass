@@ -81,7 +81,7 @@ function createStudentEle(student) {
 
     // add button to choose student
     const button = document.createElement("button");
-    button.addEventListener("click", async() =>
+    button.addEventListener("click", async () =>
         selectStudent(student, getDirection())
     );
     button.className = "btn btn-outline-primary btn-sm w-100"

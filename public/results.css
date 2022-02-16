@@ -5,9 +5,7 @@
 }
 */
 
-
 /* select only the first row from the student data */
-
 
 /*
 tr.main-heading+tr.student-row>table>tr.student-data-headings {
@@ -17,5 +15,5 @@ tr.main-heading+tr.student-row>table>tr.student-data-headings {
 }*/
 
 td {
-    font-size: 75%;
+  font-size: 75%;
 }
