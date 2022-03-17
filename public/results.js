@@ -45,7 +45,7 @@ function createStudentEle(data) {
 
     console.log(data);
 
-    row.appendChild(createEle("td", studentName));
+    row.appendChild(createEle("td", studentName, `is-problematic-${data.isProblematic}`));
 
     const entries = document.createElement("table");
     const teacherheadingdata = document.createElement("tr");

@@ -23,3 +23,7 @@ tr.main-heading + tr.student-row > table > thead > tr.student-data-headings {
 td {
   font-size: 75%;
 }
+
+.is-problematic-true {
+  background: #FF7F7F;
+}
