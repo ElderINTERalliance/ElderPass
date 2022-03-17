@@ -20,6 +20,15 @@ function getFullName(student) {
     return fullName + student.lastName;
 }
 
+/**
+ * Format date string in a way that is reusuable.
+ * @param {string} datestring
+ * @returns {string} - formatted datestring
+ */
+function formatDateString(datestring) {
+    return new Date(datestring).toLocaleString();
+}
+
 // TODO: JSDOC
 function rowToObj(row) {
     const student = {
@@ -29,7 +38,7 @@ function rowToObj(row) {
         middleName: row[3],
         teacherName: row[4],
         checkIn: row[5],
-        time: row[6],
+        time: formatDateString(row[6]),
         studentEmail: row[7],
         teacherEmail: row[8]
     };
