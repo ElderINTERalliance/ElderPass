@@ -37,3 +37,10 @@ npm run-script stop-prod
 
 `views` - All of the [EJS](https://ejs.co) that generates the client side pages
 
+-------
+
+## Services this project uses:
+
+- Auth0
+- Google Sheets (Google Service Account)
+
