@@ -41,3 +41,12 @@ body {
   margin: 20px;
   text-decoration: none;
 }
+
+#container {
+    position: absolute;
+    top: 0;
+}
+
+div#student-search-form {
+    padding: 16px;
+}
