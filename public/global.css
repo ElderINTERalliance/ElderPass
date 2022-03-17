@@ -50,3 +50,8 @@ body {
 div#student-search-form {
     padding: 16px;
 }
+
+a.admin-icon {
+  color: gray;
+}
+
